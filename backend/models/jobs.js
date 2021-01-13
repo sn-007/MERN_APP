@@ -32,12 +32,12 @@ const JobSchema = new Schema({
 	date_of_posting : {
 		type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now
     },
     deadline : {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now
     },
     skillset : [{
         type : String,

@@ -18,6 +18,12 @@ const RecSchema = new Schema({
         required: true
 
     },
+
+    password : {
+        type: String,
+        required:true
+    },
+    
     rating: {
         points:{
             type: Number,

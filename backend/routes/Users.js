@@ -3,57 +3,128 @@ var router = express.Router();
 
 // Load User model
 const User = require("../models/Users");
+const Rec = require("../models/recruiter");
+const Applicant = require("../models/applicant");
 
-// GET request 
-// Getting all the users
-router.get("/", function(req, res) {
-    User.find(function(err, users) {
+
+
+
+// Getting all the recs
+router.get("/recs", function(req, res) {
+    Rec.find(function(err, recs) {
 		if (err) {
 			console.log(err);
 		} else {
-			res.json(users);
+			res.json(recs);
 		}
 	})
 });
 
-// NOTE: Below functions are just sample to show you API endpoints working, for the assignment you may need to edit them
 
-// POST request 
-// Add a user to db
-router.post("/register", (req, res) => {
-    const newUser = new User({
+
+//Getting all the applicants
+router.get("/applicants", function(req, res) {
+    Applicant.find(function(err, applicants) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(applicants);
+		}
+	})
+});
+
+
+
+
+// Add a recruiter to db
+router.post("/rec/register", (req, res) => {
+    const newRec = new Rec({
         name: req.body.name,
         email: req.body.email,
-        date: req.body.date
+        phone: req.body.phone,
+        password: req.body.password,
+        rating:'0'
     });
 
-    newUser.save()
-        .then(user => {
-            res.status(200).json(user);
+    newRec.save()
+        .then(rec => {
+            res.status(200).json(rec);
         })
         .catch(err => {
             res.status(400).send(err);
         });
 });
 
-// POST request 
-// Login
+
+
+
+//Add an Applicant to db
+router.post("/applicant/register", (req, res) => {
+    const newApplicant = new Applicant({
+        name: req.body.name,
+        email: req.body.email,
+        //date: req.body.date,
+        education:req.body.education,
+        skillset : req.body.skillset,
+        rating : '0',
+        password: req.body.password
+    });
+
+    newApplicant.save()
+        .then(applicant => {
+            res.status(200).json(applicant);
+        })
+        .catch(err => {
+            res.status(400).send(err);
+        });
+});
+
+
+
+
+// Login for both guys
 router.post("/login", (req, res) => {
 	const email = req.body.email;
-	// Find user by email
-	User.findOne({ email }).then(user => {
+    // Find user by email
+    let findflag=0;
+	Applicant.findOne({ email }).then(applicant => {
 		// Check if user email exists
-		if (!user) {
-			return res.status(404).json({
+		if (applicant) {
+            res.send(" APPlicant Email Found");
+            findflag=1;
+            return applicant;
+        }
+        /*else{
+            return res.status(404).json({
 				error: "Email not found",
 			});
-        }
-        else{
-            res.send("Email Found");
-            return user;
-        }
-	});
+            
+            
+        }*/
+    });
+    //checking for recruiter if applicant not found
+    if(!findflag) 
+    {
+        Rec.findOne({ email }).then(rec => 
+        {
+            // Check if user email exists
+            if (!rec) {
+                return res.status(404).json({
+                    error: "Email not found",
+                });
+            }
+            else{
+                res.send(" REC Email Found");
+                return rec;
+                
+            }
+        });
+
+    }
+    
 });
+
+
 
 module.exports = router;
 

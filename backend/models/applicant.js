@@ -28,17 +28,28 @@ const ApplicantSchema = new Schema({
             },
             endyear:
             {
-                type: Number,
+                type: String,
                 required: false
             }
         
         }
     ],
 
-    skillset : [{
+    skillset : 
+    [
+        {
+        language:
+        {
         type : String,
         default : ''
-         }],
+         }
+        }
+    ],
+        
+    password : {
+        type: String,
+        required:true
+    },
 
 
     rating: {
