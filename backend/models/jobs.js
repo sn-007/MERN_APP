@@ -55,6 +55,14 @@ const JobSchema = new Schema({
         type: Number
     },
     rating: {
+        points:{
+            type: Number,
+            default:0
+        },
+        numofratings:{
+            type: Number,
+            default: 0
+        }
 
     }
 

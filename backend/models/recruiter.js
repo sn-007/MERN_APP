@@ -19,6 +19,14 @@ const RecSchema = new Schema({
 
     },
     rating: {
+        points:{
+            type: Number,
+            default:0
+        },
+        numofratings:{
+            type: Number,
+            default: 0
+        }
 
     }
 
