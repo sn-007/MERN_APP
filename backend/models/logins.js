@@ -12,6 +12,11 @@ const LoginSchema = new Schema({
 	email: {
 		type: String,
 		required: true
-    }
+	},
+	//0 for rec, 1 for applicant
+	usertype:{
+		type: Number,
+		required: true
+	}
 })
 module.exports = Login = mongoose.model("Logins", LoginSchema);
