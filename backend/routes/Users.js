@@ -5,9 +5,10 @@ var router = express.Router();
 const User = require("../models/Users");
 const Rec = require("../models/recruiter");
 const Applicant = require("../models/applicant");
+const Login = require("../models/logins");
 
 
-
+//API ENDPOINTS
 
 // Getting all the recs
 router.get("/recs", function(req, res) {
@@ -53,6 +54,22 @@ router.post("/rec/register", (req, res) => {
         .catch(err => {
             res.status(400).send(err);
         });
+
+    const newLogin = new Login({    
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    newLogin.save()
+        .then(login => {
+            res.status(200).json(login);
+        })
+        .catch(err => {
+            res.status(400).send(err);
+        });
+
+
+
 });
 
 
@@ -77,50 +94,46 @@ router.post("/applicant/register", (req, res) => {
         .catch(err => {
             res.status(400).send(err);
         });
+
+    const newLogin = new Login({    
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    newLogin.save()
+        .then(login => {
+            res.status(200).json(login);
+        })
+        .catch(err => {
+            res.status(400).send(err);
+        });
 });
 
 
 
 
-// Login for both guys
+
+
+//newlogin with password
+
 router.post("/login", (req, res) => {
-	const email = req.body.email;
-    // Find user by email
-    let findflag=0;
-	Applicant.findOne({ email }).then(applicant => {
-		// Check if user email exists
-		if (applicant) {
-            res.send(" APPlicant Email Found");
-            findflag=1;
-            return applicant;
-        }
-        /*else{
-            return res.status(404).json({
-				error: "Email not found",
-			});
-            
-            
-        }*/
-    });
-    //checking for recruiter if applicant not found
-    if(!findflag) 
-    {
-        Rec.findOne({ email }).then(rec => 
+    const email = req.body.email;
+    const password = req.body.password;
+    
+        Login.findOne({email: email, password: password}).then(login => 
         {
             // Check if user email exists
-            if (!rec) {
+            if (!login) {
                 return res.status(404).json({
-                    error: "Email not found",
+                    error: "Invalid Email or Wrong Password",
                 });
             }
             else{
-                res.send(" REC Email Found");
+                res.send("Login sucess");
                 return rec;
                 
             }
         });
-
-    }
     
 });
 
