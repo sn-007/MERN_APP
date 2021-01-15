@@ -31,7 +31,7 @@ const JobSchema = new Schema({
 
 	date_of_posting : {
 		type: Date,
-        required: true,
+        required: false,
         default: Date.now
     },
     deadline : {

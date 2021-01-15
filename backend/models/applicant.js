@@ -36,15 +36,7 @@ const ApplicantSchema = new Schema({
     ],
 
     skillset : 
-    [
-        {
-        language:
-        {
-        type : String,
-        default : ''
-         }
-        }
-    ],
+    [{type : String, default : ''}],
         
     password : {
         type: String,

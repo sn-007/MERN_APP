@@ -6,9 +6,8 @@ const User = require("../models/Users");
 const Rec = require("../models/recruiter");
 const Applicant = require("../models/applicant");
 const Login = require("../models/logins");
-
-
-//API ENDPOINTS
+const Job=require("../models/jobs");
+const applicant = require("../models/applicant");
 
 // Getting all the recs
 router.get("/recs", function(req, res) {
@@ -21,8 +20,6 @@ router.get("/recs", function(req, res) {
 	})
 });
 
-
-
 //Getting all the applicants
 router.get("/applicants", function(req, res) {
     Applicant.find(function(err, applicants) {
@@ -33,9 +30,6 @@ router.get("/applicants", function(req, res) {
 		}
 	})
 });
-
-
-
 
 // Add a recruiter to db
 router.post("/rec/register", (req, res) => {
@@ -74,9 +68,6 @@ router.post("/rec/register", (req, res) => {
 
 });
 
-
-
-
 //Add an Applicant to db
 router.post("/applicant/register", (req, res) => {
     const newApplicant = new Applicant({
@@ -112,13 +103,7 @@ router.post("/applicant/register", (req, res) => {
         });
 });
 
-
-
-
-
-
 //newlogin with password
-
 router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -139,6 +124,52 @@ router.post("/login", (req, res) => {
         });
     
 });
+
+
+//newjob creation
+router.post("/newjob", (req, res) => {
+    const newJob = new Job({
+        title: req.body.title,
+        rec_name: req.body.rec_name,
+        rec_email: req.body.rec_email,
+        max_applications: req.body.max_applications,
+        num_positions :req.body.num_positions,
+        /*date_of_posting : {
+            type: Date,
+            required: false,
+            default: Date.now
+        },*/
+        deadline : req.body.deadline,
+        skillset : req.body.skillset,
+        jobType: req.body.jobType,
+        duration: req.body.duration,
+        salary: req.body.salary
+        });
+
+    newJob.save()
+        .then(job => {
+            res.status(200).json(job);
+        })
+        .catch(err => {
+            res.status(400).send(err);
+        });
+});
+
+//update profile for an applicant
+router.post("/applicant/update", (req, res) => {
+    let gmail=req.body.email;
+
+    let myquery={email:gmail};
+    let newvalues={$push: { skillset: req.body.skillset}};
+        Applicant.updateOne(myquery,newvalues,function(){
+            res.status(200).json("DONE")
+
+        });
+
+});
+
+
+
 
 
 
