@@ -43,10 +43,11 @@ router.post("/rec/register", (req, res) => {
 
     newRec.save()
         .then(rec => {
-            res.status(200).json(rec);
+            //res.status(200).json(rec);
         })
         .catch(err => {
             res.status(400).send(err);
+            return 0;
         });
 
     const newLogin = new Login({    
@@ -82,10 +83,11 @@ router.post("/applicant/register", (req, res) => {
 
     newApplicant.save()
         .then(applicant => {
-            res.status(200).json(applicant);
+            //res.status(200).json(applicant);
         })
         .catch(err => {
             res.status(400).send(err);
+            return 0;
         });
 
     const newLogin = new Login({    
@@ -118,7 +120,6 @@ router.post("/login", (req, res) => {
             }
             else{
                 res.send("Login sucess");
-                return rec;
                 
             }
         });
@@ -148,7 +149,7 @@ router.post("/newjob", (req, res) => {
 
     newJob.save()
         .then(job => {
-            res.status(200).json(job);
+            res.status(200).json(job.title);
         })
         .catch(err => {
             res.status(400).send(err);
@@ -178,6 +179,28 @@ router.post("/applicant/dashboard", function(req, res) {
 		}
 	})
 });
+
+//applying to a job
+router.post("/apply/newjob", function(req, res) {
+    let jobtitle=req.body.title, sop=req.body.sop, email=req.body.email;//email of applicant
+    let myquery={email:email}, newvalues={$push: { jobsapplied: { title:jobtitle}}};
+    
+    //adding into applicants
+    Applicant.updateOne(myquery,newvalues).then(x=>{console.log(x);})
+                                            .catch(err => { res.status(400).send(err);return 0;});
+
+    //Applicant.updateOne(myquery,newvalues);
+    //adding into jobs
+    myquery={title:jobtitle}, newvalues={$push: { applicants:{ email:email,sop:sop}}};
+    Job.updateOne(myquery,newvalues).then(x=>{res.status(200).json("DONE");console.log(x);})
+                                    .catch(err => { res.status(400).send(err);return 0;});
+
+    //Job.updateOne(myquery,newvalues);
+
+    
+});
+
+
 
 
 

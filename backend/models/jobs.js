@@ -64,7 +64,13 @@ const JobSchema = new Schema({
             default: 0
         }
 
-    }
+    },
+    applicants:
+    [{
+        email:{type:String, required:false},
+        sop:{type:String,required:false},
+        rating:{type:Number,required:false,default:0}
+    }]
 
 
 

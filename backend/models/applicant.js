@@ -54,7 +54,12 @@ const ApplicantSchema = new Schema({
             default: 0
         }
 
-    }
+    },
+    jobsapplied:
+    [{
+        title:{type:String,  required:false},
+        status:{type:String,  required:false, default:"pending"}
+    }]
 
 
 
