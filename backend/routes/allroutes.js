@@ -7,7 +7,7 @@ const Rec = require("../models/recruiter");
 const Applicant = require("../models/applicant");
 const Login = require("../models/logins");
 const Job=require("../models/jobs");
-const applicant = require("../models/applicant");
+
 
 // Getting all the recs
 router.get("/recs", function(req, res) {
@@ -166,6 +166,17 @@ router.post("/applicant/update", (req, res) => {
 
         });
 
+});
+
+//joblisting dashboard
+router.post("/applicant/dashboard", function(req, res) {
+    Job.find(function(err, jobs) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(jobs);
+		}
+	})
 });
 
 
