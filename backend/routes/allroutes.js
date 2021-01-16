@@ -170,7 +170,7 @@ router.post("/applicant/update", (req, res) => {
 });
 
 //joblisting dashboard
-router.post("/applicant/dashboard", function(req, res) {
+router.post("/listjobs", function(req, res) {
     Job.find(function(err, jobs) {
 		if (err) {
 			console.log(err);
@@ -199,6 +199,20 @@ router.post("/apply/newjob", function(req, res) {
 
     
 });
+
+//filters
+router.post("/appfilters", function(req, res) {
+    val=req.body.title;
+    console.log(val);
+    Job.find({"title": {$regex:val}},function(err, jobs) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.status(200).json(jobs);
+		}
+	})
+});
+
 
 
 
