@@ -26,7 +26,7 @@ router.get("/applicants", function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			res.json(applicants);
+            res.json(applicants);
 		}
 	})
 });
@@ -202,16 +202,37 @@ router.post("/apply/newjob", function(req, res) {
 
 //filters
 router.post("/appfilters", function(req, res) {
-    val=req.body.title;
-    console.log(val);
-    Job.find({"title": {$regex:val}},function(err, jobs) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.status(200).json(jobs);
-		}
-	})
+    let val=req.body.title,sort=req.body.sort,uppper=req.body.upper,lower=req.body.lower;
+    //console.log(sort);
+    if(!val) val ="" ;
+   if(!uppper) uppper=999999999900;
+    if(!lower) lower=0;
+
+
+    if(sort===1){
+        Job.find({ "title": {$regex:val},salary: { $gt: lower, $lte: uppper } } ).sort({"salary":-1}).then(function(jobs,err) {
+            if (jobs) {
+                res.status(200).json(jobs);
+                console.log("from sort===1")
+            } else {
+                res.status(400).json(err);
+            }
+        })
+        .catch(res.status(404))}
+    else{
+        Job.find({ "title": {$regex:val}, salary: { $gt: lower, $lte: uppper } }).then(function(err,jobs) {
+            if (err) {
+                res.status(200).json(err);
+            } else {
+                res.status(400).json(jobs);
+            }
+        })
+        .catch(res.status(404))
+    }
+    
 });
+
+//fuck bro
 
 
 
