@@ -216,8 +216,8 @@ router.post("/listjobs", function(req, res) {
 
 //applying to a job
 router.post("/apply/newjob", function(req, res) {
-    let jobtitle=req.body.title, sop=req.body.sop, email=req.body.email;//email of applicant
-    let myquery={email:email}, newvalues={$push: { jobsapplied: { title:jobtitle}}};
+    let title=req.body.title, sop=req.body.sop, email=req.body.email;//email of applicant
+    let myquery={email:email}, newvalues={$push: { jobsapplied: { title:title}}};
     
     //adding into applicants
     Applicant.updateOne(myquery,newvalues).then(x=>{console.log(x);})
@@ -225,7 +225,7 @@ router.post("/apply/newjob", function(req, res) {
 
     //Applicant.updateOne(myquery,newvalues);
     //adding into jobs
-    myquery={title:jobtitle}, newvalues={$push: { applicants:{ email:email,sop:sop}}};
+    myquery={title:title}, newvalues={$push: { applicants:{ email:email,sop:sop}}};
     Job.updateOne(myquery,newvalues).then(x=>{res.status(200).json("DONE");console.log(x);})
                                     .catch(err => { res.status(400).send(err);return 0;});
 
@@ -333,7 +333,7 @@ router.post("/myjobs", function(req, res) {myjobs(req,res);});
 async function myjobs(req,res){
     var i=-1;
     var ans =[];
-    var jobs = await Job.find({rec_email:req.body.email});
+    var jobs = await Job.find({rec_email:req.body.rec_email});
 
 		if (!jobs) {console.log("fuck");}
         console.log(jobs.length)
@@ -360,7 +360,97 @@ async function myjobs(req,res){
         else res.status(200).json("error : no jobs found bruh"); }
 
 
+//delete and update the job listings
+router.post("/job/update",function (req, res) {jobupdate(req,res);});
+async function jobupdate(req,res)
+ {
+    if(Number(req.body.delete)==1)
+    {
+        let temp= await Job.deleteOne( { title: req.body.title } );
+        let applicants= await Applicant.find({});
+        for(var i=0;i<applicants.length;i++)
+        {
+            
+            for(var j=0;j<applicants[i].jobsapplied.length;j++)
+            {
+                if(applicants[i].jobsapplied[j].title==req.body.title)
+                {
+                    console.log("vachindi bro");
+                    console.log(req.body.title);
+                    temp= await Applicant.updateOne({_id: applicants[i]._id}, { $pull: {jobsapplied: {title:req.body.title} } } );
+                }
+            }
+        }
+        return res.status(200).json(temp);
+    }
+    else{
 
+
+    let title=req.body.title;
+    let max_applications=req.body.max_applications;
+    let num_positions =req.body.num_positions;
+    let deadline=req.body.deadline;
+
+    let myquery={title:title};
+    
+    let newvalues1= { max_applications:max_applications};
+    let newvalues2= { deadline:deadline};
+    let newvalues3= { num_positions:num_positions};
+
+        if(max_applications!=""&&max_applications) Job.updateOne(myquery,newvalues1).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(deadline!=""&&deadline) Job.updateOne(myquery,newvalues2).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(num_positions!=""&&num_positions) Job.updateOne(myquery,newvalues3).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        
+        res.status(200).json("DONE");}
+        
+};
+
+//find all the applicants to a job
+router.post("/findallapplications", function (req,res){findallapplications(req,res);});
+async function findallapplications(req,res)
+{
+    let title=req.body.title;
+    let applicants= await Applicant.find({});
+    var ans=[]
+    for(var i=0;i<applicants.length;i++)
+    {
+        
+        for(var j=0;j<applicants[i].jobsapplied.length;j++)
+        {
+            if(applicants[i].jobsapplied[j].title===req.body.title)
+            {
+                console.log("vachindi bro");
+                console.log(req.body.title);
+                var temp={"name":"",
+                          "skillset":"",
+                          "education":"",
+                          "sop":"",
+                          "status":"",
+                          "date_of_application":""
+                        };
+                        temp.name=applicants[i].name;
+                        temp.skillset=applicants[i].skillset;
+                        temp.education=applicants[i].education;
+                        temp.status=applicants[i].jobsapplied[j].status;
+                        temp.date_of_application=applicants[i].jobsapplied[j].date_of_application;
+
+                let job= await Job.findOne({title:title});
+                for(var t=0;t<job.applicants.length;t++)
+                {
+                    if(job.applicants[t].email===applicants[i].email)
+                    {
+                        temp.sop=job.applicants[t].sop;
+                    }
+                }
+
+            }
+        }
+        if(temp.sop) ans.push(temp);
+        temp={};
+    }
+    console.log("_______");
+    return res.status(200).json(ans);
+}
 
 
 
