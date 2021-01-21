@@ -49,14 +49,13 @@ export default class CreateRec extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.type);
     const newRec = {
       name: this.state.name,
       email: this.state.email,
       phone: this.state.phone,
       password: this.state.password,
     };
-    let str = "http://localhost:5000/user/rec/register";
+    let str = "http://localhost:4000/rec/register";
     axios.post(str, newRec).then(res => {
       console.log(res.data);
       if (res.data.error) {
@@ -74,6 +73,7 @@ export default class CreateRec extends Component {
   render() {
     return (
       <div className="container">
+        <p>This is the Form Creating a new recruiter</p>
         
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
@@ -104,7 +104,7 @@ export default class CreateRec extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Mobile Number: </label>
+            <label>Phone Number: </label>
             <input
               type="Number"
               className="form-control"
@@ -116,7 +116,7 @@ export default class CreateRec extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Create User"
+              value="Create Recruiter"
               className="btn btn-primary"
             />
           </div>

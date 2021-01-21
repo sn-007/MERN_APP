@@ -23,6 +23,8 @@ const RecSchema = new Schema({
         type: String,
         required:true
     },
+
+    bio:{type:String,required:false,default:"i am a Recruiter"},
     
     rating: {
         points:{
