@@ -422,6 +422,7 @@ async function findallapplications(req,res)
                 console.log("vachindi bro");
                 console.log(req.body.title);
                 var temp={"name":"",
+                          "email":"",
                           "skillset":"",
                           "education":"",
                           "sop":"",
@@ -429,6 +430,7 @@ async function findallapplications(req,res)
                           "date_of_application":""
                         };
                         temp.name=applicants[i].name;
+                        temp.email=applicants[i].email;
                         temp.skillset=applicants[i].skillset;
                         temp.education=applicants[i].education;
                         temp.status=applicants[i].jobsapplied[j].status;
@@ -451,7 +453,38 @@ async function findallapplications(req,res)
     console.log("_______");
     return res.status(200).json(ans);
 }
+//shortlistacceptreject
+router.post("/shortlistacceptreject", function (req,res){shortlistacceptreject(req,res);});
+async function shortlistacceptreject(req,res)
+{
+    let app_email=req.body.app_email,title=req.body.title,rec_email=req.body.rec_email,jobType="x";
+    var job= await Job.findOne({title:req.body.title})
+    const doj=Date.now;
+    jobType=job.jobType;
+    if(req.body.select)
+    {
+        let applicant= await Applicant.findOne({"email": app_email});
 
+    
+        
+        for(var j=0;j<applicant.jobsapplied.length;j++)
+        {
+            if(applicant.jobsapplied[j].title===title)
+            {
+                console.log("vachindi bro");
+                console.log(req.body.title);
+                var temp1= await Rec.updateOne({email:rec_email},{ $push: {workers: {title:title,
+                                                                                     name:applicant.name,
+                                                                                     jobType:jobType
+
+                                                                                    } } } );
+                var temp2= await Applicant.updateOne({email:applicant.email,"jobsapplied.title":title},{ $set:{"jobsapplied.$.status":req.body.select}})
+            }
+        }
+
+        res.json("okay");
+    }
+}
 
 
 
