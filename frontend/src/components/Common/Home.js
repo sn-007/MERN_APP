@@ -18,7 +18,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                Happy Coding!
+            For starting the app you have to register bro!
            </div>
         )
     }

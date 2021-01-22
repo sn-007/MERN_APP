@@ -26,7 +26,7 @@ const RecSchema = new Schema({
 
     bio:{type:String,required:false,default:"i am a Recruiter"},
     
-    rating: {
+   /* rating: {
         points:{
             type: Number,
             default:0
@@ -36,7 +36,7 @@ const RecSchema = new Schema({
             default: 0
         }
 
-    },
+    },*/
     workers:[
         {
         name:{type:String, default:" ", required: false},

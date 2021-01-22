@@ -1,0 +1,78 @@
+{
+    "name" : "rec1",
+    "email"  : "rec1@gmail.com",
+    "phone" : 11233,
+    "password":rec1,
+    "bio" : "Iam a rec1",
+    "workers": [],
+
+}
+
+
+{
+    "title":"job1",
+    "max_applications":50,
+    "num_positions":13,
+    "rec_email":"rec1@gmail.com",
+    "rec_name":"rec1"
+    "skillset":["java"],
+    "deadline":2021/12/5,
+    "jobType":"part-time",
+    "duration":3,
+    "salary":10000,
+    
+}
+
+//applying to a job
+
+{
+    "title":"job1",
+    "sop":"to become sexy",
+    "email":"app1@gmail.com"
+
+}
+
+
+{
+    "name":"app1",
+    "password":"app1",
+    "email":"app1@gmail.com",
+    "education":[{"instiname":"GCS", "startyear:2020, "endyear":2022}],
+    "skillset":["java","python"]
+
+}
+
+
+
+
+
+
+//NOW TODAY BACKEND SHOULD BE COMPLETED SO CHECKING THE FUNCTINALITIES
+
+
+(IF NOE CHANGE IN SCHEMA)
+
+1)REGISTER IS WORKING FINE 
+2)LOGIN IS WORKING FINE  
+
+RECRUITER
+
+    3)PROFILE IS WORKING FINE PROFILE.JS
+    4)JOBS CREATION IS WORKING FINE JOBS.js
+    5)CHECKING EDITS.JS 
+        -> DELETE A JOB (STILL NEED TO BE TESTED) SHOULD HANDLE DELETION OF APPLICATIONS OF TE JOB
+        -> EDITING PROFILE IS WORKING FINE
+    6)CHECKING APPLICATIONS.js 
+        -> To GET ALL NON REJECTED APPLICATIONS OF A JOB (WORKED FINE)
+        -> CHANGING THE STATUS(WORKED FINE)
+APPLICANT 
+
+    6)PROFILE IS WORKING FINE
+    7)SEARCH IS WORKING FINE
+    8)APPLY
+        -> APPLICANT POSTING APPLICATION (WORKED FINE)
+        -> APPLICANT SEEING ALL HIS APPLCATIONS (WORKED FINE)
+
+
+
+localhost:4000/recr/applications/?id=600811c2ca61046395d1f6cc&jid=60081d6a6a937b6b8cdc6477

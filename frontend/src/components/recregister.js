@@ -1,15 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
-import StyledRadio from "@material-ui/core/Radio";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class CreateRec extends Component {
@@ -21,12 +11,14 @@ export default class CreateRec extends Component {
       email: "",
       phone: "",
       password: "",
+      bio:""
     };
 
     this.onChangename = this.onChangename.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangeemail = this.onChangeemail.bind(this);
     this.onChangephone = this.onChangephone.bind(this);
     this.onChangepassword = this.onChangepassword.bind(this);
+    this.onChangebio = this.onChangebio.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -38,35 +30,43 @@ export default class CreateRec extends Component {
     this.setState({ password: event.target.value });
   }
 
-  onChangeEmail(event) {
+  onChangeemail(event) {
     this.setState({ email: event.target.value });
   }
   onChangephone(event) {
     this.setState({ phone: event.target.value });
   }
-  componentDidMount() {
-}
+  onChangebio(event) {
+    this.setState({ bio: event.target.value });
+  }
+  
 
   onSubmit(e) {
+    console.log("insubmit loki vachindi bro");
     e.preventDefault();
     const newRec = {
       name: this.state.name,
       email: this.state.email,
       phone: this.state.phone,
       password: this.state.password,
+      bio:this.state.bio
     };
+    if(newRec.name && newRec.email && newRec.phone && newRec.password && newRec.bio){
     let str = "http://localhost:4000/rec/register";
     axios.post(str, newRec).then(res => {
       console.log(res.data);
       if (res.data.error) {
-        alert("Already existed or Empty fields ");
+        alert("Already existed ");
       }
-    });
+      else alert("Created sucessfully, please login now ");
+    });}
+    else alert("empty fileds asshole !!!!!!")
     this.setState({
       name: "",
       email: "",
       phone: "",
-      password: ""
+      password: "",
+      bio:""
     });
   }
 
@@ -91,7 +91,7 @@ export default class CreateRec extends Component {
               type="text"
               className="form-control"
               value={this.state.email}
-              onChange={this.onChangeEmail}
+              onChange={this.onChangeemail}
             />
           </div>
           <div className="form-group">
@@ -110,6 +110,15 @@ export default class CreateRec extends Component {
               className="form-control"
               value={this.state.phone}
               onChange={this.onChangephone}
+            />
+          </div>
+          <div className="form-group">
+            <label>BIO: </label>
+            <input
+              type="Text"
+              className="form-control"
+              value={this.state.bio}
+              onChange={this.onChangebio}
             />
           </div>
           

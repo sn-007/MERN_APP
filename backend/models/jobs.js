@@ -54,7 +54,7 @@ const JobSchema = new Schema({
     salary: {
         type: Number
     },
-    rating: {
+   /* rating: {
         points:{
             type: Number,
             default:0
@@ -64,7 +64,7 @@ const JobSchema = new Schema({
             default: 0
         }
 
-    },
+    },*/
     applicants:
     [{
         email:{type:String, required:false},

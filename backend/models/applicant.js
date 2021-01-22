@@ -44,7 +44,7 @@ const ApplicantSchema = new Schema({
     },
 
 
-    rating: {
+    /*rating: {
         points:{
             type: Number,
             default:0
@@ -54,7 +54,7 @@ const ApplicantSchema = new Schema({
             default: 0
         }
 
-    },
+    },*/
     jobsapplied:
     [{
         title:{type:String,  required:false},

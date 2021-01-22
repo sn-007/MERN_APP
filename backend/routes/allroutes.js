@@ -2,12 +2,11 @@ var express = require("express");
 var router = express.Router();
 
 // Load User model
-const User = require("../models/Users");
 const Rec = require("../models/recruiter");
 const Applicant = require("../models/applicant");
 const Login = require("../models/logins");
 const Job=require("../models/jobs");
-const { application } = require("express");
+
 
 
 // Getting all the recs
@@ -33,37 +32,28 @@ router.get("/applicants", function(req, res) {
 });
 
 // Add a recruiter to db
-router.post("/rec/register", (req, res) => {
+router.post("/rec/register", function(req,res) {recregister(req,res);} );
+async function recregister(req, res) 
+{
     const newRec = new Rec({
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
         password: req.body.password,
-        rating:'0'
+        bio:req.body.bio,
+        //rating:'0'
     });
 
 
-    Rec.findOne({email: req.body.email}).then(rec => 
-        {
+    var rec = await Rec.findOne({email: req.body.email})
+        
             // Check if user email exists
-            if (rec) 
-            {
-                return res.status(404).json({
-                    error: "Invalid Email or Wrong Password",
-                });
-            }
-        });
-
-    
-
-    newRec.save()
-        .then(rec => {
-            //res.status(200).json(rec);
-        })
-        .catch(err => {
-            res.status(400).send(err);
-            return 0;
-        });
+            if (rec)  return res.status(200).json({error: "Already there bro"});
+            
+   // var newrec = await newRec.save();
+      //  if(!newrec) return res.status(200).json({error: "Already there bro"});
+        newRec.save().then((arg)=>{console.log(arg);})
+                    .catch((err)=>{return res.status(200).json({error:err});})
 
     const newLogin = new Login({    
         email: req.body.email,
@@ -72,17 +62,15 @@ router.post("/rec/register", (req, res) => {
         
     });
 
-    newLogin.save()
-        .then(login => {
-            res.status(200).json(login);
-        })
-        .catch(err => {
-            res.status(400).send(err);
-        });
+    var newlogin = await newLogin.save();
+    if(!newlogin) return res.status(404).json({error: "Already there bro"});
+
+    if(newlogin)
+        return res.status(200).json("DONE CREATED A NEW REC")
 
 
 
-});
+};
 
 //Add an Applicant to db
 router.post("/applicant/register", (req, res) => {
