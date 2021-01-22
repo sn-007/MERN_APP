@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from './templates/Navbar';
 
 export default class CreateApp extends Component {
   constructor(props) {
@@ -110,8 +111,10 @@ export default class CreateApp extends Component {
   }
 
   render() {
+
     return (
       <div className="container">
+          <Navbar/>
         <p>This is the Form Creating a new applicant</p>
         
         <form onSubmit={this.onSubmit}>

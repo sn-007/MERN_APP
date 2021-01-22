@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from './templates/Navbar';
 
 export default class CreateRec extends Component {
   constructor(props) {
@@ -73,6 +74,7 @@ export default class CreateRec extends Component {
   render() {
     return (
       <div className="container">
+        <Navbar/>
         <p>This is the Form Creating a new recruiter</p>
         
         <form onSubmit={this.onSubmit}>

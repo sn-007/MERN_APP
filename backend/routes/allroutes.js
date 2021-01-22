@@ -128,12 +128,10 @@ router.post("/login", (req, res) => {
         {
             // Check if user email exists
             if (!login) {
-                return res.status(404).json({
-                    error: "Invalid Email or Wrong Password",
-                });
+                return res.status(200).json({error: "Invalid Email or Wrong Password"});
             }
             else{
-                res.send("Login sucess");
+                res.status(200).json("Login sucess");
                 
             }
         });

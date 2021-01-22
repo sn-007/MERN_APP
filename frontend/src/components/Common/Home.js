@@ -1,24 +1,15 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Navbar from '../templates/Navbar';
 
 export default class Home extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            name:'',
-            email:''
-        }
-    }
 
-    componentDidMount() {
-
-    }
 
     render() {
         return (
             <div>
-            For starting the app you have to register bro!
+                <Navbar/>
+            <h1>For starting the app you have to register bro!</h1>
            </div>
         )
     }

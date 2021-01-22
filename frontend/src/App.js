@@ -9,15 +9,16 @@ import Navbar from './components/templates/Navbar'
 import Profile from './components/Users/Profile'
 import RecRegister from './components/recregister'
 import AppRegister from './components/appregister'
+import Login from './components/login'
 
 function App() {
   return (
     <Router>
       <div className="container">
-        <Navbar/>
-        <br/>
+        
+        
         <Route path="/" exact component={Home}/>
-        <Route path="/users" exact component={UsersList}/>
+        <Route path="/login" exact component={Login}/>
         <Route path="/register" component={Register}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/recregister" component={RecRegister}/>
