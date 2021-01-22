@@ -8,6 +8,7 @@ import Register from './components/Common/Register'
 import Navbar from './components/templates/Navbar'
 import Profile from './components/Users/Profile'
 import RecRegister from './components/recregister'
+import AppRegister from './components/appregister'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/register" component={Register}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/recregister" component={RecRegister}/>
+        <Route path="/applicantregister" component={AppRegister}/>
       </div>
     </Router>
   );

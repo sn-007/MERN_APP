@@ -77,7 +77,6 @@ router.post("/applicant/register", (req, res) => {
     const newApplicant = new Applicant({
         name: req.body.name,
         email: req.body.email,
-        //date: req.body.date,
         education:req.body.education,
         skillset : req.body.skillset,
         rating : '0',
@@ -90,7 +89,7 @@ router.post("/applicant/register", (req, res) => {
             // Check if user email exists
             if (applicant) 
             {
-                return res.status(404).json({
+                return res.status(200).json({
                     error: "already existing bruh"
                 });
             }
@@ -101,7 +100,7 @@ router.post("/applicant/register", (req, res) => {
             //res.status(200).json(applicant);
         })
         .catch(err => {
-            res.status(400).send(err);
+            res.status(200).json({"error":"PLease check fields"});
             return 0;
         });
 
@@ -113,7 +112,7 @@ router.post("/applicant/register", (req, res) => {
 
     newLogin.save()
         .then(login => {
-            res.status(200).json(login);
+            return res.status(200).json(login);
         })
         .catch(err => {
             res.status(400).send(err);
