@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './templates/applicantnavbar';
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import StyledRadio from "@material-ui/core/Radio";
 
 
 
@@ -17,7 +21,8 @@ export default class Alljobs extends Component
       ftitle:"",
       lower:"",
       upper:"",
-      sort:""
+      sort:"",
+      jobType:""
     };
 
     this.onChangedata = this.onChangedata.bind(this);
@@ -27,6 +32,7 @@ export default class Alljobs extends Component
     this.onChangesort=this.onChangesort.bind(this);
     this.renderData = this.renderData.bind(this);
     this.onSubmit=this.onSubmit.bind(this);
+    this.onChangejobType = this.onChangejobType.bind(this);
     
     
   }
@@ -36,6 +42,7 @@ export default class Alljobs extends Component
   onChangelower(event) {this.setState({ lower: event.target.value });}
   onChangeupper(event) {this.setState({ upper: event.target.value });}
   onChangesort(event) {this.setState({ sort: event.target.value });}
+  onChangejobType(event) {this.setState({ jobType: event.target.value });}
   
   renderData(data,index)
   {
@@ -56,7 +63,14 @@ export default class Alljobs extends Component
   {
       e.preventDefault();
     var str="http://localhost:4000/appfilters";
-    var obj={"title":this.state.ftitle}
+    console.log(this.state.sort);
+    var obj={"title":this.state.ftitle,
+             "sort":this.state.sort,
+             "jobType":this.state.jobType,
+             "lower":this.state.lower,
+             "upper":this.state.upper
+            }
+    console.log(obj);
     var res=await axios.post(str,obj);
     this.setState({data:res.data});
     
@@ -77,6 +91,81 @@ export default class Alljobs extends Component
               onChange={this.onChangeftitle}
             />
           </div>
+
+          <div className="col">
+          <div className="form-group">
+            <label>Lower LIMIT: </label>
+            <input
+              type="number"
+              className="form-control"
+              value={this.state.lower}
+              onChange={this.onChangelower}
+            />
+          </div>
+          <div className="form-group">
+            <label>Upper LIMIT: </label>
+            <input
+              type="number"
+              className="form-control"
+              value={this.state.upper}
+              onChange={this.onChangeupper}
+            />
+          </div>
+
+
+          </div>
+          
+
+          <div className="form-group">
+            <FormLabel component="legend">SORT: </FormLabel>
+            <RadioGroup
+              defaultValue={this.state.sort}
+              aria-label="gender"
+              name="customized-radios"
+              onChange={this.onChangesort}
+            >
+                <div className="col">
+              <FormControlLabel
+                value="0"
+                control={<StyledRadio />}
+                label="Dont sort"
+              />
+              <FormControlLabel
+                value="1"
+                control={<StyledRadio />}
+                label="Sort"
+              />
+              </div>
+            </RadioGroup>
+          </div>
+          <div className="form-group">
+            <FormLabel component="legend">JOB-TYPE: </FormLabel>
+            <RadioGroup
+              defaultValue={this.state.jobType}
+              aria-label="gender"
+              name="customized-radios"
+              onChange={this.onChangejobType}
+            >
+                <div className="col">
+              <FormControlLabel
+                value="full-time"
+                control={<StyledRadio />}
+                label="FULL-TIME"
+              />
+              <FormControlLabel
+                value="part-time"
+                control={<StyledRadio />}
+                label="PART-TIME"
+              />
+              <FormControlLabel
+                value="x"
+                control={<StyledRadio />}
+                label="BOTH"
+              />
+              </div>
+            </RadioGroup>
+          </div>
+          
          
           <div className="form-group">
             <input
@@ -85,6 +174,8 @@ export default class Alljobs extends Component
               className="btn btn-primary"
             />
           </div>
+          
+
         </form>
 
 

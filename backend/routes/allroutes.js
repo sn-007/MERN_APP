@@ -232,13 +232,14 @@ router.post("/apply/newjob", function(req, res) {
 router.post("/appfilters", function(req, res) {
     let sort=req.body.sort,uppper=req.body.upper,lower=req.body.lower,jobType=req.body.jobType;
     let title=req.body.title;
-    if(!title) title=""
-    if(!jobType) jobType="";
+    if(!title) title="";
+    if(!jobType || jobType==="x") jobType="";
    if(!uppper) uppper=999999999900;
     if(!lower) lower=0;
 
 
-    if(sort===1){
+
+    if(sort==="1"){
         console.log(req.body.title);
         Job.find( {$and:[ { title: {$regex:title},salary: { $gt: lower, $lte: uppper }, jobType:{$regex:jobType} }]}).sort({salary:-1}).then(function(jobs,err) {
             if (jobs) {
@@ -261,6 +262,9 @@ router.post("/appfilters", function(req, res) {
     }
     
 });
+
+
+
 
 //update profile for the Recruiter
 router.post("/rec/update", (req, res) => {
