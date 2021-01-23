@@ -10,6 +10,8 @@ import AppRegister from './components/appregister'
 import Login from './components/login'
 import AppProfile from './components/applicantprofile'
 import EditAppProfile from './components/editappprofile'
+import MyApplications from './components/myapplications'
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
         <Route path="/recregister" component={RecRegister}/>
         <Route path="/applicantregister" component={AppRegister}/>
         <Route path="/editappprofile" component={EditAppProfile}/>
+        <Route path="/myapps" component={MyApplications}/>
 
       </div>
     </Router>

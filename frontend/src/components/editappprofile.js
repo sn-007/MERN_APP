@@ -85,17 +85,23 @@ export default class CreateApp extends Component {
       education:this.state.education,
       skillset:this.state.skillset
     };
+    console.log(newApplicant.name);
+    console.log(newApplicant.email);
+    console.log(newApplicant.password);
+    console.log(newApplicant.education);
+    console.log(newApplicant.skillset);
+    
+
     if(newApplicant.name && newApplicant.email && newApplicant.password ){
-    let str = "http://localhost:4000/applicant/register";
+    let str = "http://localhost:4000/applicant/update";
     let res= axios.post(str, newApplicant);
     alert("updated");
-
+    this.props.history.push("/appprofile");
     }
     
     else alert("empty fileds asshole !!!!!!")
     this.setState({
         name: "",
-        email: "",
         password: "",
         education:[],
         skillset:[],
@@ -112,7 +118,7 @@ export default class CreateApp extends Component {
     return (
       <div className="container">
           <Navbar/>
-        <p>This is the Form Creating a new applicant</p>
+        <p>This is the Form for updating applicant, for security reasons please enter all details</p>
         
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
@@ -198,8 +204,8 @@ export default class CreateApp extends Component {
           
           <div className="form-group">
             <input
-              type="button"
-              value="Update"
+              type="submit"
+              value="update"
               className="btn btn-primary"
             />
           </div>

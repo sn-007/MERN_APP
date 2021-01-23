@@ -172,21 +172,22 @@ router.post("/newjob", (req, res) => {
 //update profile for an applicant
 router.post("/applicant/update", (req, res) => {
     let gmail=req.body.email;
-    let lang=req.body.skillset;
     let name =req.body.name;
     let skillset=req.body.skillset;
     let education=req.body.education;
+    let password=req.body.password;
 
     let myquery={email:gmail};
-    let newvalues={ skillset:lang};
+    let newvalues1= { password:password};
     let newvalues2= { name:name};
     let newvalues3= { skillset:skillset};
     let newvalues4= { education:education};
     
-        if(lang) Applicant.updateOne(myquery,newvalues).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+    
+        if(password) Applicant.updateOne(myquery,newvalues1).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         if(name) Applicant.updateOne(myquery,newvalues2).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
-        if(name) Applicant.updateOne(myquery,newvalues3).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
-        if(name) Applicant.updateOne(myquery,newvalues4).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(skillset) Applicant.updateOne(myquery,newvalues3).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(education) Applicant.updateOne(myquery,newvalues4).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         
         
         
@@ -302,18 +303,14 @@ async function myapps(req,res){
         {
            // let temp=jobs.length;
             //console.log(temp);
+            var obj={"title":"","status":"","date_of_Application":"","salary":"","rec_name":""}
             let title =jobs[i].title;
             var job = await Job.findOne({title:title})
             if(job)
             {
-                ans.push(job);
-                //console.log(ans);
-                //console.log("value of i is " + i);
-                /*if(i===jobs.length)
-                    {   console.log("if loki vachindi");
-                        res.status(200).json(ans);
-                        return;
-                    }*/
+                obj.title=title;obj.status=jobs[i].status;obj.date_of_Application=jobs[i].date_of_Application;
+                obj.salary=job.salary;obj.rec_name=job.rec_name
+                ans.push(obj);
             }
         }
         console.log("____________________")

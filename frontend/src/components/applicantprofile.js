@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './templates/applicantnavbar';
+import  { Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import {
+  BrowserRouter as Router,
+  Route
+ } from 'react-router-dom';
+
+
 
 
 
@@ -21,12 +29,20 @@ export default class AppProfile extends Component
     this.onChangeemail = this.onChangeemail.bind(this);
     this.onChangeeducation = this.onChangeeducation.bind(this);
     this.onChangeskillset = this.onChangeskillset.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChangename(event) {this.setState({ name: event.target.value });}
   onChangeemail(event) {this.setState({ email: event.target.value });}
   onChangeeducation(event) {this.setState({ education: event.target.value });}
   onChangeskillset(event) {this.setState({ skillset: event.target.value });}
+
+  onSubmit(e)
+  {
+    e.preventDefault();
+    this.props.history.push("/editappprofile")
+
+  }
 
 
   async componentDidMount()
@@ -48,6 +64,8 @@ export default class AppProfile extends Component
 
  
   render() {
+
+    
     
 
     return (
@@ -61,9 +79,8 @@ export default class AppProfile extends Component
         {this.state.education.map(function(d, idx){
          return (<li><h6 key={idx}>{d.instiname}, from {d.startyear} to {d.endyear}</h6></li>)
        })}
-      </div>
-
-        
+        </div>
+      <button  class="btn btn-warning" onClick={this.onSubmit} >UpdateProfile</button>
       </div>
     );
   }

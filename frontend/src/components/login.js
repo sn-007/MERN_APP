@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './templates/Navbar';
+import  { Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import {
+  BrowserRouter as Router,
+  Route
+ } from 'react-router-dom';
 
 export default class Login extends Component {
   constructor(props) {
@@ -56,16 +62,21 @@ export default class Login extends Component {
       password: this.state.password
       
     };
-    if(newLogin.email &&  newLogin.password){
-    let str = "http://localhost:4000/login";
-     let res= await  axios.post(str, newLogin);
+    if(newLogin.email &&  newLogin.password)
+    {
+      let str = "http://localhost:4000/login";
+      let res= await  axios.post(str, newLogin);
 
-      if (res.data.error) {
+      if (res.data.error) 
+      {
         alert("Wrong password or invalid email");
+        this.props.history.push(`/login`);
+        return;
+        
       }
       else 
       {
-          alert("loginsucess");
+          //alert("loginsucess");
           var usertype= await res.data.usertype.toString();                        
           var email = await res.data.email.toString();
           console.log("__________");
@@ -74,17 +85,29 @@ export default class Login extends Component {
             localStorage.setItem("usertype", usertype);
             localStorage.setItem("email", email);
             console.log("setted");   
-            if (localStorage.getItem("usertype") === 1 && localStorage.getItem("email")) this.props.history.push("/recregister");
-      }
-        console.log("+++++++++++");
+            
+            
+            }
+      
         //localStorage.removeItem("usertype");
         //localStorage.removeItem("email");
-
-        console.log(localStorage.getItem("email"));
-        console.log(localStorage.getItem("usertype"));
+        const ut=localStorage.getItem("usertype");
+        const em=localStorage.getItem("email");
+        console.log(em);
+        console.log(ut);
         
+        
+          console.log("+++++++++++");
+          //return <Redirect to='/appprofile'  />;
+          if(ut==='1')
+          this.props.history.push(`/appprofile`);
+          else if(ut==='1')
+          this.props.history.push(`/recprofile`);
+          else this.props.history.push(`/login`);
 
+        
     }
+
     else alert("empty fileds asshole !!!!!!")
     this.setState({
       email: "",
