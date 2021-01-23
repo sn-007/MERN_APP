@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from './templates/Navbar';
+import Navbar from './templates/applicantnavbar';
 
 export default class CreateApp extends Component {
   constructor(props) {
@@ -9,7 +9,6 @@ export default class CreateApp extends Component {
 
     this.state = {
       name: "",
-      email: "",
       password: "",
       education:[],
       skillset:[],
@@ -20,7 +19,6 @@ export default class CreateApp extends Component {
     };
 
     this.onChangename = this.onChangename.bind(this);
-    this.onChangeemail = this.onChangeemail.bind(this);
     this.onChangepassword = this.onChangepassword.bind(this);
     this.onChangeeducation = this.onChangeeducation.bind(this);
     this.onChangeinstiname = this.onChangeinstiname.bind(this);
@@ -37,7 +35,6 @@ export default class CreateApp extends Component {
 
   onChangename(event) {this.setState({ name: event.target.value });}
   onChangepassword(event) {this.setState({ password: event.target.value });}
-  onChangeemail(event) {this.setState({ email: event.target.value });}
   onChangeeducation(event) {this.setState({ education: event.target.value });}
   onChangeinstiname(event) {this.setState({ instiname: event.target.value });}
   onChangestartyear(event) {this.setState({ startyear: event.target.value });}
@@ -78,25 +75,23 @@ export default class CreateApp extends Component {
         }    
  
 
-  onSubmit(e) {
+  async onSubmit(e) {
     console.log("insubmit loki vachindi bro");
     e.preventDefault();
     const newApplicant = {
       name: this.state.name,
-      email: this.state.email,
+      email: localStorage.getItem("email"),
       password: this.state.password,
       education:this.state.education,
       skillset:this.state.skillset
     };
     if(newApplicant.name && newApplicant.email && newApplicant.password ){
     let str = "http://localhost:4000/applicant/register";
-    axios.post(str, newApplicant).then(res => {
-      console.log(res.data);
-      if (res.data.error) {
-        alert("Already existed ");
-      }
-      else alert("Created sucessfully, please login now ");
-    });}
+    let res= axios.post(str, newApplicant);
+    alert("updated");
+
+    }
+    
     else alert("empty fileds asshole !!!!!!")
     this.setState({
         name: "",
@@ -112,6 +107,7 @@ export default class CreateApp extends Component {
   }
 
   render() {
+      const Email=localStorage.getItem("email");
 
     return (
       <div className="container">
@@ -131,10 +127,10 @@ export default class CreateApp extends Component {
           <div className="form-group">
             <label>Email: </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
-              value={this.state.email}
-              onChange={this.onChangeemail}
+              value={Email}
+              readOnly
             />
           </div>
           <div className="form-group">
@@ -202,8 +198,8 @@ export default class CreateApp extends Component {
           
           <div className="form-group">
             <input
-              type="submit"
-              value="Create Applicant"
+              type="button"
+              value="Update"
               className="btn btn-primary"
             />
           </div>

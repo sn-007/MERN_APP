@@ -131,7 +131,8 @@ router.post("/login", (req, res) => {
                 return res.status(200).json({error: "Invalid Email or Wrong Password"});
             }
             else{
-                res.status(200).json("Login sucess");
+                res.status(200).json(login);
+                console.log(login);
                 
             }
         });
@@ -173,12 +174,19 @@ router.post("/applicant/update", (req, res) => {
     let gmail=req.body.email;
     let lang=req.body.skillset;
     let name =req.body.name;
+    let skillset=req.body.skillset;
+    let education=req.body.education;
 
     let myquery={email:gmail};
-    let newvalues={$push: { skillset:lang}};
+    let newvalues={ skillset:lang};
     let newvalues2= { name:name};
+    let newvalues3= { skillset:skillset};
+    let newvalues4= { education:education};
+    
         if(lang) Applicant.updateOne(myquery,newvalues).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         if(name) Applicant.updateOne(myquery,newvalues2).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(name) Applicant.updateOne(myquery,newvalues3).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(name) Applicant.updateOne(myquery,newvalues4).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         
         
         
@@ -471,7 +479,17 @@ async function shortlistacceptreject(req,res)
     }
 }
 
+//retrieveapplicant details
 
+router.post("/applicantprofile", function(req, res) {
+    Applicant.findOne({email:req.body.email}, function(err, applicants) {
+		if (err) {
+			console.log(err);
+		} else {
+            res.json(applicants);
+		}
+	})
+});
 
 
 

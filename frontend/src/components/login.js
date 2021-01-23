@@ -27,11 +27,29 @@ export default class Login extends Component {
   onChangeemail(event) {
     this.setState({ email: event.target.value });
   }
+
+  componentDidMount() {
+    /*console.log("+++++++++++");
+    console.log(localStorage.getItem("email"));
+    console.log(localStorage.getItem("usertype"));
+    
+    if (localStorage.getItem("usertype") === 1 && localStorage.getItem("email")) this.props.history.push("/applicant");
+    else if (localStorage.getItem("usertype") === 0 && localStorage.getItem("email")) 
+    {
+      console.log("dsas");
+      this.props.history.push("/rec");
+    } 
+    else 
+    {
+      console.log("rtlogin");
+      this.props.history.push("/login");
+    }*/
+  }
   
   
 
-  onSubmit(e) {
-    console.log("insubmit loki vachindi bro");
+ async onSubmit(e) {
+    
     e.preventDefault();
     const newLogin = {
       email: this.state.email,
@@ -40,13 +58,33 @@ export default class Login extends Component {
     };
     if(newLogin.email &&  newLogin.password){
     let str = "http://localhost:4000/login";
-    axios.post(str, newLogin).then(res => {
-      console.log(res.data);
+     let res= await  axios.post(str, newLogin);
+
       if (res.data.error) {
         alert("Wrong password or invalid email");
       }
-      else alert("loginsucess");
-    });}
+      else 
+      {
+          alert("loginsucess");
+          var usertype= await res.data.usertype.toString();                        
+          var email = await res.data.email.toString();
+          console.log("__________");
+
+            console.log("came");
+            localStorage.setItem("usertype", usertype);
+            localStorage.setItem("email", email);
+            console.log("setted");   
+            if (localStorage.getItem("usertype") === 1 && localStorage.getItem("email")) this.props.history.push("/recregister");
+      }
+        console.log("+++++++++++");
+        //localStorage.removeItem("usertype");
+        //localStorage.removeItem("email");
+
+        console.log(localStorage.getItem("email"));
+        console.log(localStorage.getItem("usertype"));
+        
+
+    }
     else alert("empty fileds asshole !!!!!!")
     this.setState({
       email: "",
