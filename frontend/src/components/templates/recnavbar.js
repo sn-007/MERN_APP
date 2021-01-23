@@ -22,7 +22,7 @@ export default class NavBar extends Component {
                                 <Link to="/myapps" className="nav-link">My Jobs</Link>
                             </li>
                             <li className="navbar-item">
-                                <Link to="/listjobs" className="nav-link">NewJOB</Link>
+                                <Link to="/newjob" className="nav-link">NewJOB</Link>
                             </li>
                             <li className="navbar-item">
                                 <Link to="/login" className="nav-link">Logout</Link>
