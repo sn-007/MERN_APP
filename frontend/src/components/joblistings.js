@@ -56,6 +56,7 @@ export default class Alljobs extends Component
             <td>{data.rec_email}</td>
             <td>{data.jobType}</td>
             <td>{data.duration}</td>
+            <td>APPLY</td>
 
           </tr>) };
 
@@ -194,6 +195,7 @@ export default class Alljobs extends Component
                 <th scope="col">Email</th>
                 <th scope="col">JobType</th>
                 <th scope="col">Duration</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>    

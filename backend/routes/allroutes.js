@@ -272,14 +272,17 @@ router.post("/rec/update", (req, res) => {
     let phone=req.body.phone;
     let name =req.body.name;
     let bio=req.body.bio;
+    let password=req.body.password;
 
     let myquery={email:gmail};
     let newvalues={phone:phone};
     let newvalues2= { name:name};
     let newvalues3= { bio:bio};
+    let newvalues4={password:password};
         if(phone) Rec.updateOne(myquery,newvalues).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         if(name) Rec.updateOne(myquery,newvalues2).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         if(bio) Rec.updateOne(myquery,newvalues3).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
+        if(password) Rec.updateOne(myquery,newvalues4).then((x)=>{console.log(x);}).catch((err)=>{res.status(404).json(err);})
         
         res.status(200).json("DONE");
         
@@ -488,6 +491,18 @@ router.post("/applicantprofile", function(req, res) {
 			console.log(err);
 		} else {
             res.json(applicants);
+		}
+	})
+});
+
+//retrieverec details
+
+router.post("/recprofile", function(req, res) {
+    Rec.findOne({email:req.body.email}, function(err, rec) {
+		if (err) {
+			console.log(err);
+		} else {
+            res.json(rec);
 		}
 	})
 });

@@ -101,7 +101,7 @@ export default class Login extends Component {
           //return <Redirect to='/appprofile'  />;
           if(ut==='1')
           this.props.history.push(`/appprofile`);
-          else if(ut==='1')
+          else if(ut==='0')
           this.props.history.push(`/recprofile`);
           else this.props.history.push(`/login`);
 

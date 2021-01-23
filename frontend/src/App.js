@@ -12,6 +12,8 @@ import AppProfile from './components/applicantprofile'
 import EditAppProfile from './components/editappprofile'
 import MyApplications from './components/myapplications'
 import Jobslist from "./components/joblistings"
+import RecProfile from "./components/recprofile"
+import EditRecProfile from "./components/editrecprofile"
 
 
 function App() {
@@ -23,9 +25,11 @@ function App() {
         <Route path="/" exact component={Home}/>
         <Route path="/login" exact component={Login}/>
         <Route path="/appprofile" component={AppProfile}/>
+        <Route path="/recprofile" component={RecProfile}/>
         <Route path="/recregister" component={RecRegister}/>
         <Route path="/applicantregister" component={AppRegister}/>
         <Route path="/editappprofile" component={EditAppProfile}/>
+        <Route path="/editrecprofile" component={EditRecProfile}/>
         <Route path="/myapps" component={MyApplications}/>
         <Route path="/listjobs" component={Jobslist}/>
 
