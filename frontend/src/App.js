@@ -11,6 +11,7 @@ import Login from './components/login'
 import AppProfile from './components/applicantprofile'
 import EditAppProfile from './components/editappprofile'
 import MyApplications from './components/myapplications'
+import Jobslist from "./components/joblistings"
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
         <Route path="/applicantregister" component={AppRegister}/>
         <Route path="/editappprofile" component={EditAppProfile}/>
         <Route path="/myapps" component={MyApplications}/>
+        <Route path="/listjobs" component={Jobslist}/>
+
 
       </div>
     </Router>

@@ -23,11 +23,33 @@ export default class MyApplications extends Component
     };
 
     this.onChangedata = this.onChangedata.bind(this);
+    this.renderData = this.renderData.bind(this);
+    
     
   }
 
   onChangedata(event) {this.setState({ name: event.target.value });}
   
+  renderData(data,index)
+  {
+      var clss;
+      if(data.status==="pending"){clss="table-warning"}
+      else if (data.status==="rejected"){clss="table-danger"}
+      else clss="table-success"
+        return (
+        
+            
+          <tr key={index} class ={clss}>
+            <td>{data.title}</td>
+            <td>{data.salary}</td>
+            <td>{data.rec_name}</td>
+            <td>{data.status}</td>
+
+          </tr>
+        )
+      
+
+  }
 
   async componentDidMount()
   {
@@ -45,7 +67,7 @@ export default class MyApplications extends Component
       <div className="container">
           <Navbar/>
         
-        <div>
+        {/*<div>
         {this.state.data.map(function(d, idx)
         {
          return (
@@ -59,7 +81,39 @@ export default class MyApplications extends Component
         )
 
        })}
-        </div>
+        </div>*/}
+
+        <table class="table table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                
+                <th scope="col">Title</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Name of Recruiter</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>    
+        {this.state.data.map(this.renderData)}
+        </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
     );
   }
