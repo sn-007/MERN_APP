@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from './templates/Navbar';
+import Navbar from '../templates/Navbar';
 import  { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import {

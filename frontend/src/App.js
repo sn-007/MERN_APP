@@ -3,17 +3,16 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 
-import Home from './components/Common/Home'
-import Navbar from './components/templates/Navbar'
-import RecRegister from './components/recregister'
-import AppRegister from './components/appregister'
-import Login from './components/login'
-import AppProfile from './components/applicantprofile'
-import EditAppProfile from './components/editappprofile'
-import MyApplications from './components/myapplications'
-import Jobslist from "./components/joblistings"
-import RecProfile from "./components/recprofile"
-import EditRecProfile from "./components/editrecprofile"
+import Home from './components/templates/Home'
+import RecRegister from './components/REC/recregister'
+import AppRegister from './components/APPLICANT/appregister'
+import Login from './components/Users/login'
+import AppProfile from './components/APPLICANT/applicantprofile'
+import EditAppProfile from './components/APPLICANT/editappprofile'
+import MyApplications from './components/APPLICANT/myapplications'
+import Jobslist from "./components/APPLICANT/joblistings"
+import RecProfile from "./components/REC/recprofile"
+import EditRecProfile from "./components/REC/editrecprofile"
 
 
 function App() {

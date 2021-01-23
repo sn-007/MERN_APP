@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from './templates/recnavbar';
+import Navbar from '../templates/recnavbar';
 
 export default class EditRec extends Component {
   constructor(props) {
