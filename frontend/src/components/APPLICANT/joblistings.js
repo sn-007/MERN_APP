@@ -184,7 +184,7 @@ export default class Alljobs extends Component
 
 
 
-
+        <div className="table-responsive">
         <table class="table table-hover ">
         <thead class="thead-dark">
             <tr>
@@ -202,6 +202,7 @@ export default class Alljobs extends Component
         {this.state.data.map(this.renderData)}
         </tbody>
 </table>
+</div>
 
 
 

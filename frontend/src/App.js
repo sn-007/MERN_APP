@@ -14,6 +14,7 @@ import Jobslist from "./components/APPLICANT/joblistings"
 import RecProfile from "./components/REC/recprofile"
 import EditRecProfile from "./components/REC/editrecprofile"
 import NewJob from "./components/REC/newjob"
+import MyJobs from "./components/REC/myjobs"
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/myapps" component={MyApplications}/>
         <Route path="/listjobs" component={Jobslist}/>
         <Route path="/newjob" component={NewJob}/>
+        <Route path="/myjobs" component={MyJobs}/>
 
 
       </div>

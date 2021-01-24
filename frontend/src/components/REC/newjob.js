@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from '../templates/Navbar';
+import Navbar from '../templates/recnavbar';
 
 export default class ewJob extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ export default class ewJob extends Component {
     this.state = {
         title: "",
         rec_name: "",
-        rec_email: "",
         max_applications: "",
         num_positions :"",
         deadline : "",
@@ -21,7 +20,6 @@ export default class ewJob extends Component {
     };
 
     this.onChangetitle = this.onChangetitle.bind(this);
-    this.onChangerec_email = this.onChangerec_email.bind(this);
     this.onChangerec_name = this.onChangerec_name.bind(this);
     this.onChangemax_applications = this.onChangemax_applications.bind(this);
     this.onChangenum_positions = this.onChangenum_positions.bind(this);
@@ -36,7 +34,6 @@ export default class ewJob extends Component {
   }
 
   onChangetitle(event) {this.setState({ title: event.target.value });}
-  onChangerec_email(event) {this.setState({ rec_email: event.target.value });}
   onChangerec_name(event) {this.setState({ rec_name: event.target.value });}
   onChangemax_applications(event) {this.setState({ max_applications: event.target.value });}
   onChangenum_positions(event) {this.setState({ num_positions: event.target.value });}
@@ -47,31 +44,33 @@ export default class ewJob extends Component {
   onChangeduration(event) {this.setState({ duration: event.target.value });}
   
 
-  onSubmit(e) {
+  async onSubmit(e) {
     console.log("insubmit loki vachindi bro");
     e.preventDefault();
     const newJob = {
-        title:this.state.title,
-        rec_name:this.state.rec_name ,
-        rec_email:this.state.rec_email ,
-        max_applications:this.state.max_applications ,
-        num_positions :this.state.num_positions,
-        deadline : this.state.deadline,
-        skillset : this.state.skillset,
-        jobType: this.state.jobType,
-        duration: this.state.duration,
-        salary: this.state.salary
+        "title":this.state.title,
+        "max_applications":this.state.max_applications ,
+        "num_positions" :this.state.num_positions,
+        "rec_email":localStorage.getItem("email"),
+        "rec_name":this.state.rec_name,
+        "skillset" : this.state.skillset,
+        "deadline" : this.state.deadline,
+        "jobType": this.state.jobType,
+        "duration": this.state.duration,
+        "salary": this.state.salary
      
     };
-    if(newJob.title  && newJob.rec_name && newJob.max_applications && newJob.num_positions&& newJob.deadline && newJob.skillset && newJob.duration && newJob.jobType&&newJob.salary){
-    let str = "http://localhost:4000/newjob";
-    axios.post(str, newJob).then(res => {
+    console.log(newJob);
+    if(newJob.title  && newJob.rec_name && newJob.max_applications && newJob.num_positions&& newJob.deadline && newJob.skillset && newJob.duration && newJob.jobType&&newJob.salary)
+    {
+      let str = "http://localhost:4000/newjob";
+      let res = await axios.post(str, newJob); 
       console.log(res.data);
-      if (res.data.error) {
-        alert("check values ");
-      }
+
+      if (res.data.error) alert("check values ");
       else alert("JOb Posted ");
-    });}
+    }
+
     else alert("empty fileds asshole !!!!!!")
 
   }
@@ -183,7 +182,7 @@ export default class ewJob extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Create Recruiter"
+              value="Create Job"
               className="btn btn-primary"
             />
           </div>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from '../templates/applicantnavbar';
+import Navbar from '../templates/recnavbar';
 import  { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import {
@@ -13,7 +13,7 @@ import {
 
 
 
-export default class MyApplications extends Component 
+export default class MyJobs extends Component 
 {
   constructor(props) {
     super(props);
@@ -32,19 +32,19 @@ export default class MyApplications extends Component
   
   renderData(data,index)
   {
-      var clss;
-      if(data.status==="pending"){clss="table-warning"}
-      else if (data.status==="rejected"){clss="table-danger"}
-      else clss="table-success"
-        return (
-        
-            
-          <tr key={index} class ={clss}>
-            <td>{data.title}</td>
-            <td>{data.salary}</td>
-            <td>{data.rec_name}</td>
-            <td>{data.status}</td>
+      var clss="";
+      if(data.deadline < Date.now) clss="table-success";
+      else clss="table-danger";
+      
 
+        return (
+            
+          <tr key={index} className={clss}>
+            <td>{data.title}</td>
+            <td>{data.number_of_applicants}</td>
+            <td>{data.rem_positions}</td>
+            <td>{data.date_of_posting.slice(0,10)}</td>
+            <td>{data.deadline.slice(0,10)}</td>
           </tr>
         )
       
@@ -54,10 +54,12 @@ export default class MyApplications extends Component
   async componentDidMount()
   {
     var email=localStorage.getItem("email");
-    const obj={"email":email};
-    var str="http://localhost:4000/myapps"
+    const obj={"rec_email":email};
+    console.log(obj);
+    var str="http://localhost:4000/myjobs"
     var res=await axios.post(str,obj);
     this.setState({data:res.data});
+    console.log(res.data);
     
   }
   
@@ -67,37 +69,24 @@ export default class MyApplications extends Component
       <div className="container">
           <Navbar/>
         
-        {/*<div>
-        {this.state.data.map(function(d, idx)
-        {
-         return (
-            <ol> <h3 key={idx}>
-                <ul>title: {d.title}</ul>
-                <ul>salary:{d.salary} </ul>
-                <ul>Recruiter Name:{d.rec_name}</ul>
-                <ul>Status:{d.status}</ul>
-                </h3>
-            </ol>
-        )
-
-       })}
-        </div>*/}
-  <div className="table-responsive">
+        <div className="table-responsive">
         <table class="table table-hover ">
         <thead class="thead-dark">
             <tr>
                 
                 <th scope="col">Title</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Name of Recruiter</th>
-                <th scope="col">Status</th>
+                <th scope="col">Applications</th>
+                <th scope="col">Remaining Positions</th>
+                <th scope="col">Date Posted</th>
+                <th scope="col">Deadline</th>
             </tr>
         </thead>
         <tbody>    
         {this.state.data.map(this.renderData)}
         </tbody>
-    </table>
-    </div>
+</table>
+</div>
+
       </div>
     );
   }

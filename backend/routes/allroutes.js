@@ -31,7 +31,7 @@ router.get("/applicants", function(req, res) {
 	})
 });
 
-// Add a recruiter to db
+// Add a recruiter to db done
 router.post("/rec/register", function(req,res) {recregister(req,res);} );
 async function recregister(req, res) 
 {
@@ -72,7 +72,7 @@ async function recregister(req, res)
 
 };
 
-//Add an Applicant to db
+//Add an Applicant to db done
 router.post("/applicant/register", (req, res) => {
     const newApplicant = new Applicant({
         name: req.body.name,
@@ -119,7 +119,7 @@ router.post("/applicant/register", (req, res) => {
         });
 });
 
-//login with password
+//login with password done
 router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -140,7 +140,7 @@ router.post("/login", (req, res) => {
 });
 
 
-//newjob creation
+//newjob creation done
 router.post("/newjob", (req, res) => {
     const newJob = new Job({
         title: req.body.title,
@@ -169,7 +169,7 @@ router.post("/newjob", (req, res) => {
         });
 });
 
-//update profile for an applicant
+//update profile for an applicant done
 router.post("/applicant/update", (req, res) => {
     let gmail=req.body.email;
     let name =req.body.name;
@@ -197,7 +197,7 @@ router.post("/applicant/update", (req, res) => {
 });
         
 
-//get all jobs
+//get all jobs dont change
 router.post("/listjobs", function(req, res) {
     Job.find(function(err, jobs) {
 		if (err) {
@@ -228,7 +228,7 @@ router.post("/apply/newjob", function(req, res) {
     
 });
 
-//filters
+//filters done
 router.post("/appfilters", function(req, res) {
     let sort=req.body.sort,uppper=req.body.upper,lower=req.body.lower,jobType=req.body.jobType;
     let title=req.body.title;
@@ -266,7 +266,7 @@ router.post("/appfilters", function(req, res) {
 
 
 
-//update profile for the Recruiter
+//update profile for the Recruiter done
 router.post("/rec/update", (req, res) => {
     let gmail=req.body.email;
     let phone=req.body.phone;
@@ -288,7 +288,7 @@ router.post("/rec/update", (req, res) => {
         
 });
 
-//My Applications
+//My Applications done
 router.post("/myapps", function(req, res) {myapps(req,res);});
 async function myapps(req,res){
     var jobs=[],i=-1;
@@ -343,11 +343,13 @@ async function myjobs(req,res){
                 console.log("fuck");
                 continue;
             }*/
-            var temp={"title":"","date_of_posting":"","number_of_applicants":"","max_applications":""};
+            var temp={"title":"","date_of_posting":"","number_of_applicants":"","max_applications":"","rem_positions":""};
             temp.title =jobs[i].title;
             temp.date_of_posting= jobs[i].date_of_posting;
+            temp.deadline= jobs[i].deadline;
             temp.number_of_applicants=jobs[i].applicants.length;
-            temp.max_applications=jobs[i].num_positions;
+            temp.max_applications=jobs[i].max_applications;
+            temp.rem_positions=jobs[i].max_applications-jobs[i].applicants.length;
             ans.push(temp);
 
            
@@ -483,7 +485,7 @@ async function shortlistacceptreject(req,res)
     }
 }
 
-//retrieveapplicant details
+//retrieveapplicant details done
 
 router.post("/applicantprofile", function(req, res) {
     Applicant.findOne({email:req.body.email}, function(err, applicants) {
@@ -495,8 +497,7 @@ router.post("/applicantprofile", function(req, res) {
 	})
 });
 
-//retrieverec details
-
+//retrieverec details done
 router.post("/recprofile", function(req, res) {
     Rec.findOne({email:req.body.email}, function(err, rec) {
 		if (err) {
