@@ -24,19 +24,33 @@ export default class MyJobs extends Component
 
     this.onChangedata = this.onChangedata.bind(this);
     this.renderData = this.renderData.bind(this);
+    this.updatedata=this.updatedata.bind(this);
     
     
   }
 
   onChangedata(event) {this.setState({ name: event.target.value });}
+
+  async updatedata(jobtitle)
+  {
+    localStorage.setItem("title",jobtitle);
+    this.props.history.push("/updatejob");
+  }
   
   renderData(data,index)
   {
-      var clss="";
-      if(data.deadline < Date.now) clss="table-success";
+      var clss="",today= new Date(), temp=data.deadline;
+      var year = today.getFullYear().toString(),month=today.getMonth(),day=today.getDate().toString();
+      month=month+1;
+      month=month.toString();
+      if(month < "10") month= "0"+month;
+      if(day < "10") day="0"+day;
+      var present= year+'-'+month+'-'+day;
+      var yt=temp.slice(0,4).toString(),mt=temp.slice(5,7).toString(),dt=temp.slice(8,10).toString() ;
+      var dline=yt+'-'+mt+'-'+dt;
+      if(dline > present) clss="table-success";
       else clss="table-danger";
       
-
         return (
             
           <tr key={index} className={clss}>
@@ -45,6 +59,7 @@ export default class MyJobs extends Component
             <td>{data.rem_positions}</td>
             <td>{data.date_of_posting.slice(0,10)}</td>
             <td>{data.deadline.slice(0,10)}</td>
+            <td><button type="button" class="btn btn-warning" onClick={ ()=>this.updatedata(data.title)}>update</button></td>
           </tr>
         )
       
@@ -79,6 +94,8 @@ export default class MyJobs extends Component
                 <th scope="col">Remaining Positions</th>
                 <th scope="col">Date Posted</th>
                 <th scope="col">Deadline</th>
+                <th scope="col">Edit</th>
+
             </tr>
         </thead>
         <tbody>    

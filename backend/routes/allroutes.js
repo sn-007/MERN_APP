@@ -325,7 +325,7 @@ async function myapps(req,res){
         else res.status(200).json("error"); }
 
 
-//all jobs of a recruiter
+//all jobs of a recruiter done
 router.post("/myjobs", function(req, res) {myjobs(req,res);});
 async function myjobs(req,res){
     var i=-1;
@@ -360,7 +360,7 @@ async function myjobs(req,res){
 
 
 //delete and update the job listings
-router.post("/job/update",function (req, res) {jobupdate(req,res);});
+router.post("/jobupdate",function (req, res) {jobupdate(req,res);});
 async function jobupdate(req,res)
  {
     if(Number(req.body.delete)==1)
