@@ -24,7 +24,7 @@ export default class MyJobs extends Component {
         this.onChangedata = this.onChangedata.bind(this);
         this.renderData = this.renderData.bind(this);
         this.updatedata = this.updatedata.bind(this);
-        
+
 
 
     }
@@ -43,14 +43,22 @@ export default class MyJobs extends Component {
         var res = await axios.post(str, obj);
     }
 
+    async componentDidMount() {
+        if (localStorage.getItem("usertype") != "0") {
+
+            this.props.history.push("/login");
+            return;
+        }
+    }
+
 
 
     renderData(data, index) {
         var recmail = localStorage.getItem("email");
         if (data.name) {
-            var tag1=false,tag2=false,tag3=false;
-            if(data.status==="accepted"){tag1=true;tag2=true;tag3=true;}
-            else if(data.status==="shortlisted"){tag1=false;tag2=true;tag3=false;}
+            var tag1 = false, tag2 = false, tag3 = false;
+            if (data.status === "accepted") { tag1 = true; tag2 = true; tag3 = true; }
+            else if (data.status === "shortlisted") { tag1 = false; tag2 = true; tag3 = false; }
 
             return (
 
@@ -62,9 +70,9 @@ export default class MyJobs extends Component {
                     <td className="bg-warning">{data.status}</td>
 
                     <td className="bg-info">
-                        <button type="button " className="btn btn-success "  disabled={tag1} onClick={() => this.updatedata("accepted", data.email, recmail, localStorage.getItem("title"))}>Accept</button>
-                        <button type="button" className="btn btn-warning"  disabled={tag2} onClick={() => this.updatedata("shortlisted", data.email, recmail, localStorage.getItem("title"))}>Shortlist</button>
-                        <button type="button" className="btn btn-danger"  disabled={tag3} onClick={() => this.updatedata("rejected", data.email, recmail, localStorage.getItem("title"))}>Reject</button>
+                        <button type="button " className="btn btn-success " disabled={tag1} onClick={() => this.updatedata("accepted", data.email, recmail, localStorage.getItem("title"))}>Accept</button>
+                        <button type="button" className="btn btn-warning" disabled={tag2} onClick={() => this.updatedata("shortlisted", data.email, recmail, localStorage.getItem("title"))}>Shortlist</button>
+                        <button type="button" className="btn btn-danger" disabled={tag3} onClick={() => this.updatedata("rejected", data.email, recmail, localStorage.getItem("title"))}>Reject</button>
                     </td>
 
                 </tr>
@@ -76,7 +84,7 @@ export default class MyJobs extends Component {
     async componentDidMount() {
         var title = localStorage.getItem("title");
         const obj = { "title": title };
-       // console.log(obj);
+        // console.log(obj);
         var str = "http://localhost:4000/findallapplications"
         var res = await axios.post(str, obj);
         this.setState({ data: res.data });

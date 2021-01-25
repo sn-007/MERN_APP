@@ -47,7 +47,13 @@ export default class ewJob extends Component {
   onChangejobType(event) {this.setState({ jobType: event.target.value });}
   onChangeduration(event) {this.setState({ duration: event.target.value });}
   
+  async componentDidMount() {
+    if (localStorage.getItem("usertype") != "0") {
 
+        this.props.history.push("/login");
+        return;
+    }
+}
   async onSubmit(e) {
     console.log("insubmit loki vachindi bro");
     e.preventDefault();

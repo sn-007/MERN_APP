@@ -35,6 +35,14 @@ export default class EditRec extends Component {
   onChangebio(event) {
     this.setState({ bio: event.target.value });
   }
+
+  async componentDidMount() {
+    if (localStorage.getItem("usertype") != "0") {
+
+        this.props.history.push("/login");
+        return;
+    }
+}
   
 
   async onSubmit(e) {

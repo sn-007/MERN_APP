@@ -54,6 +54,12 @@ export default class MyApplications extends Component
 
   async componentDidMount()
   {
+    if(localStorage.getItem("usertype")!="1")
+    {
+      
+      this.props.history.push("/login");
+      return;
+    }
     var email=localStorage.getItem("email");
     const obj={"email":email};
     var str="http://localhost:4000/myapps"

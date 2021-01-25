@@ -63,6 +63,13 @@ async ondelete()
     else alert("empty fileds asshole !!!!!!")
 
   }
+  async componentDidMount() {
+    if (localStorage.getItem("usertype") != "0") {
+
+        this.props.history.push("/login");
+        return;
+    }
+}
 
   render() {
     return (

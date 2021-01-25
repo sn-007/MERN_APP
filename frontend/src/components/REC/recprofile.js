@@ -47,6 +47,13 @@ export default class RecProfile extends Component
 
   async componentDidMount()
   {
+   
+      if (localStorage.getItem("usertype") != "0") {
+
+          this.props.history.push("/login");
+          return;
+      }
+  
     var email=localStorage.getItem("email");
     //console.log(email);
     const obj={"email":email};

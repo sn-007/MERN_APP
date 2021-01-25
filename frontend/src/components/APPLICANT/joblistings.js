@@ -60,6 +60,16 @@ export default class Alljobs extends Component {
     this.props.history.push("/applyforjob");
   }
 
+  async componentDidMount()
+  {
+    if(localStorage.getItem("usertype")!="1")
+    {
+      
+      this.props.history.push("/login");
+      return;
+    }
+  }
+
    
 
   renderData(data, index) {

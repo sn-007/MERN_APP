@@ -76,6 +76,13 @@ export default class MyJobs extends Component
 
   async componentDidMount()
   {
+   
+      if (localStorage.getItem("usertype") != "0") {
+
+          this.props.history.push("/login");
+          return;
+      }
+  
     var email=localStorage.getItem("email");
     const obj={"rec_email":email};
     console.log(obj);

@@ -73,7 +73,15 @@ export default class CreateApp extends Component {
         this.setState({skillset:skillobject});
         this.setState(  {skill:""});
         }    
- 
+ async componentDidMount()
+ {
+  if(localStorage.getItem("usertype")!="1")
+  {
+    
+    this.props.history.push("/login");
+    return;
+  }
+ }
 
   async onSubmit(e) {
     console.log("insubmit loki vachindi bro");

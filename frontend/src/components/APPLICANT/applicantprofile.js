@@ -48,6 +48,12 @@ export default class AppProfile extends Component
   async componentDidMount()
   {
     var email=localStorage.getItem("email");
+    if(localStorage.getItem("usertype")!="1")
+    {
+      
+      this.props.history.push("/login");
+      return;
+    }
     //console.log(email);
     const obj={"email":email};
     var str="http://localhost:4000/applicantprofile"
@@ -64,6 +70,8 @@ export default class AppProfile extends Component
 
  
   render() {
+
+    
 
     
     

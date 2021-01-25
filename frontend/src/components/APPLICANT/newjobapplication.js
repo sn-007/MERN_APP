@@ -21,6 +21,14 @@ export default class EditRec extends Component {
 
     onChangesop(event) { this.setState({ sop: event.target.value }); }
 
+    async componentDidMount() {
+        if (localStorage.getItem("usertype") != "1") {
+
+            this.props.history.push("/login");
+            return;
+        }
+    }
+
     async onSubmit(e) {
         e.preventDefault();
 
