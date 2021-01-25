@@ -33,8 +33,9 @@ export default class MyApplications extends Component
   renderData(data,index)
   {
       var clss;
-      if(data.status==="pending"){clss="table-warning"}
+      if(data.status==="pending"){clss="table-dark"}
       else if (data.status==="rejected"){clss="table-danger"}
+      else if (data.status==="shortlisted"){clss="table-warning"}
       else clss="table-success"
         return (
         

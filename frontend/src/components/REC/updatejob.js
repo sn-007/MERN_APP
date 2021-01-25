@@ -10,20 +10,32 @@ export default class EditRec extends Component {
     this.state = {
         max_applications:"",
         num_positions:"",
-        deadline:""
+        deadline:"",
+        delete:"0"
     };
 
     this.onChangemax_applications = this.onChangemax_applications.bind(this);
     this.onChangenum_positions = this.onChangenum_positions.bind(this);
     this.onChangedeadline = this.onChangedeadline.bind(this);
+    this.onChangedelete = this.onChangedelete.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.ondelete = this.ondelete.bind(this);
   }
 
   onChangemax_applications(event) {this.setState({ max_applications: event.target.value });}
   onChangenum_positions(event) {this.setState({ num_positions: event.target.value });}
   onChangedeadline(event) {this.setState({ deadline: event.target.value });}
-
+  onChangedelete(event) {this.setState({ delete: event.target.value });}
+async ondelete()
+{
+  const newdel = {"delete":"1","title":localStorage.getItem("title")};
+  let str = "http://localhost:4000/jobupdate";
+      let res = await axios.post(str, newdel); 
+      if(!res.error){alert("deleted")}
+      this.props.history.push("/myjobs");
+  
+}
   async onSubmit(e) {
     e.preventDefault();
     
@@ -34,6 +46,7 @@ export default class EditRec extends Component {
         "max_applications":this.state.max_applications ,
         "num_positions" :this.state.num_positions,
         "deadline" : this.state.deadline,
+        "delete":this.state.delete
      
     };
     console.log(newJob);
@@ -55,7 +68,7 @@ export default class EditRec extends Component {
     return (
       <div className="container">
         <Navbar/>
-        <p>This is the Form Updating a  Job</p>
+        <h4>This is the Form Updating/deleting a  Job</h4>
         
         <form onSubmit={this.onSubmit}>
           
@@ -89,6 +102,8 @@ export default class EditRec extends Component {
               onChange={this.onChangenum_positions}
             />
           </div>
+
+          
           
           <div className="form-group">
             <input
@@ -96,8 +111,11 @@ export default class EditRec extends Component {
               value="update Job"
               className="btn btn-primary btn-warning"
             />
+
           </div>
+          
         </form>
+        <button type="button" class="btn btn-danger float-right" onClick={ this.ondelete}>Delete Job</button>
       </div>
     );
   }

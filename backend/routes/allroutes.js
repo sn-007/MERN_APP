@@ -370,7 +370,7 @@ async function myjobs(req, res) {
 //delete and update the job listings
 router.post("/jobupdate", function (req, res) { jobupdate(req, res); });
 async function jobupdate(req, res) {
-    if (Number(req.body.delete) == 1) {
+    if (req.body.delete === "1") {
         let temp = await Job.deleteOne({ title: req.body.title });
         let applicants = await Applicant.find({});
         for (var i = 0; i < applicants.length; i++) {
@@ -383,6 +383,7 @@ async function jobupdate(req, res) {
                 }
             }
         }
+        console.log("deleted");
         return res.status(200).json(temp);
     }
     else {
@@ -408,58 +409,7 @@ async function jobupdate(req, res) {
 
 };
 
-//find all the applicants to a job
-/*router.post("/findallapplications", function (req, res) { findallapplications(req, res); });
-async function findallapplications(req, res) {
-    let title = req.body.title;
-    let applicants = await Applicant.find({});
-    var ans = []
-    for (var i = 0; i < applicants.length; i++) {
-        var temporiginal = {};
 
-        for (var j = 0; j < applicants[i].jobsapplied.length; j++) {
-
-            //if(applicants[i].jobsapplied[j].status==="rejected") continue;
-
-            if (applicants[i].jobsapplied[j].title === req.body.title) {
-                //console.log("vachindi bro");
-                //console.log(req.body.title);
-                var temp = {
-                    "name": "",
-                    "email": "",
-                    "skillset": "",
-                    "education": "",
-                    "sop": "",
-                    "status": "",
-                    "date_of_application": ""
-                };
-                temp.name = applicants[i].name;
-                temp.email = applicants[i].email;
-                temp.skillset = applicants[i].skillset;
-                temp.education = applicants[i].education;
-                temp.status = applicants[i].jobsapplied[j].status;
-                temp.date_of_application = applicants[i].jobsapplied[j].date_of_application;
-
-                let job = await Job.findOne({ title: title });
-                for (var t = 0; t < job.applicants.length; t++) {
-                    if (job.applicants[t].email === applicants[i].email) {
-                        temp.sop = job.applicants[t].sop;
-                    }
-                }
-                temporiginal = temp;
-
-            }
-        }
-        var fuck = {};
-        if (temporiginal === fuck) console.log("dengebey");
-        else { ans.push(temporiginal); console.log("came") }
-
-    }
-    console.log("_______");
-    console.log(ans);
-
-    return res.status(200).json(ans);
-}*/
 //shortlistacceptreject
 router.post("/shortlistacceptreject", function (req, res) { shortlistacceptreject(req, res); });
 async function shortlistacceptreject(req, res) {
