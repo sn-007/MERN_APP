@@ -464,18 +464,19 @@ async function findallapplications(req, res) {
 router.post("/shortlistacceptreject", function (req, res) { shortlistacceptreject(req, res); });
 async function shortlistacceptreject(req, res) {
     let app_email = req.body.app_email, title = req.body.title, rec_email = req.body.rec_email, jobType = "x";
+    
     var job = await Job.findOne({ title: req.body.title })
     jobType = job.jobType;
     if (req.body.select) {
         let applicant = await Applicant.findOne({ "email": app_email });
 
 
-
+       
         for (var j = 0; j < applicant.jobsapplied.length; j++) {
             if (applicant.jobsapplied[j].title === title) {
                 console.log("vachindi bro");
                 console.log(req.body.title);
-                var temp1 = await Rec.updateOne({ email: rec_email }, {
+                if(req.body.status=="accepted"){var temp1 = await Rec.updateOne({ email: rec_email }, {
                     $push: {
                         workers: {
                             title: title,
@@ -484,7 +485,8 @@ async function shortlistacceptreject(req, res) {
 
                         }
                     }
-                });
+                });}
+                
                 var temp2 = await Applicant.updateOne({ email: applicant.email, "jobsapplied.title": title }, { $set: { "jobsapplied.$.status": req.body.select } })
             }
         }
