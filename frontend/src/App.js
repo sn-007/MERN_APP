@@ -17,6 +17,7 @@ import NewJob from "./components/REC/newjob"
 import UpdateJob from "./components/REC/updatejob"
 import MyJobs from "./components/REC/myjobs"
 import ApplyForJob from "./components/APPLICANT/newjobapplication"
+import SEEAPPLICATIONS from "./components/REC/applications"
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/myjobs" component={MyJobs}/>
         <Route path="/updatejob" component={UpdateJob}/>
         <Route path="/applyforjob" component={ApplyForJob}/>
+        <Route path="/applications" component={SEEAPPLICATIONS}/>
         
 
 
