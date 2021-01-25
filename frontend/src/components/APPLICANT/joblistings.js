@@ -60,28 +60,42 @@ export default class Alljobs extends Component {
    
 
   renderData(data, index) {
-    var found = "0", name = "Apply", clss = "btn btn-warning"
+  var  name = "Apply", clss = "btn btn-warning", dsb="";
     
-    if (found ===1 ) {
+    if (data.found ==="1" ) {
       name = "Applied";
       clss = "btn btn-success"
+      dsb="disabled"
     }
 
 
+if(dsb==="disabled"){return (
 
-    return (
+
+  <tr key={index}>
+    <td>{data.title}</td>
+    <td>{data.salary}</td>
+    <td>{data.rec_name}</td>
+    <td>{data.rec_email}</td>
+    <td>{data.jobType}</td>
+    <td>{data.duration}</td>
+    <td><button type="button" disabled class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
+
+  </tr>)}
+else {return (
 
 
-      <tr key={index}>
-        <td>{data.title}</td>
-        <td>{data.salary}</td>
-        <td>{data.rec_name}</td>
-        <td>{data.rec_email}</td>
-        <td>{data.jobType}</td>
-        <td>{data.duration}</td>
-        <td><button type="button" class={clss} onClick={() => this.updatedata(data.title)}>{name}</button></td>
+  <tr key={index}>
+    <td>{data.title}</td>
+    <td>{data.salary}</td>
+    <td>{data.rec_name}</td>
+    <td>{data.rec_email}</td>
+    <td>{data.jobType}</td>
+    <td>{data.duration}</td>
+    <td><button type="button"  class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
 
-      </tr>)
+  </tr>)}
+    
   };
 
   async onSubmit(e) {
@@ -93,12 +107,14 @@ export default class Alljobs extends Component {
       "sort": this.state.sort,
       "jobType": this.state.jobType,
       "lower": this.state.lower,
-      "upper": this.state.upper
+      "upper": this.state.upper,
+      "email":localStorage.getItem("email")
     }
     
     var res = await axios.post(str, obj);
    
     this.setState({ data: res.data });
+    console.log(res.data);
 
   }
 

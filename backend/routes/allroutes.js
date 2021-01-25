@@ -225,40 +225,54 @@ router.post("/apply/newjob", function (req, res) {
 });
 
 //filters done
-router.post("/appfilters", function (req, res) {
+router.post("/appfilters", function (req, res) { filters(req, res) })
+
+async function filters(req, res) {
     let sort = req.body.sort, uppper = req.body.upper, lower = req.body.lower, jobType = req.body.jobType;
     let title = req.body.title;
     if (!title) title = "";
     if (!jobType || jobType === "x") jobType = "";
     if (!uppper) uppper = 999999999900;
     if (!lower) lower = 0;
-
-
+    var ans = [];
 
     if (sort === "1") {
-        console.log(req.body.title);
-        Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: -1 }).then(function (jobs, err) {
-            if (jobs) {
-                res.status(200).json(jobs);
-                console.log("from sort===1")
-            } else {
-                res.status(400).json(err);
-            }
-        })
-            .catch(res.status(404))
-    }
-    else {
-        Job.find({ "title": { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }).then(function (err, jobs) {
-            if (err) {
-                res.status(200).json(err);
-            } else {
-                res.status(400).json(jobs);
-            }
-        })
-            .catch(res.status(404))
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: -1 })
+        if (jobs) {
+            ans = jobs;
+
+            console.log("from sort===1")
+        }
     }
 
-});
+    else {
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: 1 })
+        if (jobs) {
+            ans = jobs;
+
+            console.log("from sort===0")
+        }
+    }
+    var applicant = await Applicant.findOne({ email: req.body.email });
+    console.log(applicant.jobsapplied.length);
+
+
+    for (var i = 0; i < ans.length; i++) {
+
+
+        if (applicant) {
+            for (var j = 0; j < applicant.jobsapplied.length; j++) {
+                if (applicant.jobsapplied[j].title === ans[i].title) {
+
+                    ans[i].found = "1";
+                }
+            }
+        }
+
+    };
+    //console.log(ans);
+    res.status(200).json(ans);
+}
 
 
 
@@ -494,24 +508,7 @@ router.post("/recprofile", function (req, res) {
     })
 });
 
-//checkappliedornot
-router.post("/checkapplied", function (req, res) {checkapplied(req,res)});
-async function checkapplied(req,res)
-{
-    var obj={"found":"0"};
-    var applicant = await Applicant.findOne({ email: req.body.email });
 
-    if(applicant)
-    {
-        for(var i=0;i<applicant.jobsapplied.length;i++)
-        {
-            if(applicant.jobsapplied[i].title === req.body.title) {obj.found="1";}
-        }
-
-    }
-    return res.json(obj);
-        
-};
 
 
 
