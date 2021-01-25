@@ -229,6 +229,7 @@ router.post("/appfilters", function (req, res) { filters(req, res) })
 
 async function filters(req, res) {
     let sort = req.body.sort, uppper = req.body.upper, lower = req.body.lower, jobType = req.body.jobType;
+    console.log(sort);
     let title = req.body.title;
     if (!title) title = "";
     if (!jobType || jobType === "x") jobType = "";
@@ -245,8 +246,24 @@ async function filters(req, res) {
         }
     }
 
-    else {
+    else if(sort==="0") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: 1 })
+        if (jobs) {
+            ans = jobs;
+
+            console.log("from sort===0")
+        }
+    }
+    else if(sort==="d0") {
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: 1 })
+        if (jobs) {
+            ans = jobs;
+
+            console.log("from sort===0")
+        }
+    }
+    else if(sort==="d1") {
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: -1 })
         if (jobs) {
             ans = jobs;
 

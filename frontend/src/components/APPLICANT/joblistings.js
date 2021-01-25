@@ -20,7 +20,8 @@ export default class Alljobs extends Component {
       ftitle: "",
       lower: "",
       upper: "",
-      sort: "",
+      sort: "0",
+      sortd:"",
       jobType: "",
       found:""
     };
@@ -30,6 +31,7 @@ export default class Alljobs extends Component {
     this.onChangelower = this.onChangelower.bind(this);
     this.onChangeupper = this.onChangeupper.bind(this);
     this.onChangesort = this.onChangesort.bind(this);
+    this.onChangesortd = this.onChangesortd.bind(this);
     this.renderData = this.renderData.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangejobType = this.onChangejobType.bind(this);
@@ -47,6 +49,7 @@ export default class Alljobs extends Component {
   onChangelower(event) { this.setState({ lower: event.target.value }); }
   onChangeupper(event) { this.setState({ upper: event.target.value }); }
   onChangesort(event) { this.setState({ sort: event.target.value }); }
+  onChangesortd(event) { this.setState({ sortd: event.target.value }); }
   onChangejobType(event) { this.setState({ jobType: event.target.value }); }
   onChangefound(event) { this.setState({ found: event.target.value }); }
   
@@ -60,16 +63,16 @@ export default class Alljobs extends Component {
    
 
   renderData(data, index) {
-  var  name = "Apply", clss = "btn btn-warning", dsb="";
+  var  name = "Apply", clss = "btn btn-warning", dsb=false;
     
     if (data.found ==="1" ) {
       name = "Applied";
       clss = "btn btn-success"
-      dsb="disabled"
+      dsb=true;
     }
 
 
-if(dsb==="disabled"){return (
+return (
 
 
   <tr key={index}>
@@ -79,22 +82,9 @@ if(dsb==="disabled"){return (
     <td>{data.rec_email}</td>
     <td>{data.jobType}</td>
     <td>{data.duration}</td>
-    <td><button type="button" disabled class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
+    <td><button type="button" disabled={dsb} class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
 
-  </tr>)}
-else {return (
-
-
-  <tr key={index}>
-    <td>{data.title}</td>
-    <td>{data.salary}</td>
-    <td>{data.rec_name}</td>
-    <td>{data.rec_email}</td>
-    <td>{data.jobType}</td>
-    <td>{data.duration}</td>
-    <td><button type="button"  class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
-
-  </tr>)}
+  </tr>)
     
   };
 
@@ -105,6 +95,7 @@ else {return (
     var obj = {
       "title": this.state.ftitle,
       "sort": this.state.sort,
+      "sortd": this.state.sortd,
       "jobType": this.state.jobType,
       "lower": this.state.lower,
       "upper": this.state.upper,
@@ -170,16 +161,34 @@ else {return (
                 <FormControlLabel
                   value="0"
                   control={<StyledRadio />}
-                  label="Dont sort"
+                  label="Ascending Salary"
                 />
                 <FormControlLabel
                   value="1"
                   control={<StyledRadio />}
-                  label="Sort"
+                  label="Descending Salary"
+                />
+                <FormControlLabel
+                  value="d0"
+                  control={<StyledRadio />}
+                  label="Ascending Duration"
+                />
+                <FormControlLabel
+                  value="d1"
+                  control={<StyledRadio />}
+                  label="Descending Duration"
                 />
               </div>
             </RadioGroup>
           </div>
+
+          
+
+
+
+
+
+
           <div className="form-group">
             <FormLabel component="legend">JOB-TYPE: </FormLabel>
             <RadioGroup

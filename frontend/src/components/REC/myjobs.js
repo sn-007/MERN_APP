@@ -98,12 +98,12 @@ export default class MyJobs extends Component
             <tr>
                 
                 <th scope="col">Title</th>
-                <th scope="col">Applications</th>
+                <th scope="col">Applied</th>
                 <th scope="col">Remaining Positions</th>
                 <th scope="col">Date Posted</th>
                 <th scope="col">Deadline</th>
                 <th scope="col">Edit</th>
-                <th scope="col">Applications</th>
+                <th scope="col">look</th>
 
 
             </tr>

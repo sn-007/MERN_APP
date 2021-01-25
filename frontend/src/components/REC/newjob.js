@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from '../templates/recnavbar';
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import StyledRadio from "@material-ui/core/Radio";
 
 export default class ewJob extends Component {
   constructor(props) {
@@ -130,15 +134,48 @@ export default class ewJob extends Component {
               onChange={this.onChangeduration}
             />
           </div>
+          
+
           <div className="form-group">
-            <label>JobType </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.jobType}
+            <FormLabel component="legend">JOB-TYPE: </FormLabel>
+            <RadioGroup
+              defaultValue={this.state.jobType}
+              aria-label="gender"
+              name="customized-radios"
               onChange={this.onChangejobType}
-            />
+            >
+              <div className="col">
+                <FormControlLabel
+                  value="full-time"
+                  control={<StyledRadio />}
+                  label="FULL-TIME"
+                />
+                <FormControlLabel
+                  value="part-time"
+                  control={<StyledRadio />}
+                  label="PART-TIME"
+                />
+              </div>
+            </RadioGroup>
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
           <div className="form-group">
             <label>Skills required </label>
             <input
