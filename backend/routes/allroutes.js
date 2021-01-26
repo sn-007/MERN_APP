@@ -72,7 +72,10 @@ async function recregister(req, res) {
 };
 
 //Add an Applicant to db done
-router.post("/applicant/register", (req, res) => {
+router.post("/applicant/register", function (req, res) { appregister(req, res) });
+async function appregister(req, res) {
+    console.log(req.body);
+
     const newApplicant = new Applicant({
         name: req.body.name,
         email: req.body.email,
@@ -83,38 +86,33 @@ router.post("/applicant/register", (req, res) => {
     });
 
 
-    Applicant.findOne({ email: req.body.email }).then(applicant => {
-        // Check if user email exists
-        if (applicant) {
-            return res.status(200).json({
-                error: "already existing bruh"
-            });
-        }
-    });
+    var applicant = await Applicant.findOne({ email: req.body.email })
+    // Check if user email exists
+    if (applicant) {
+        return res.status(200).json({
+            error: "already existing bruh"
+        });
+    }
 
-    newApplicant.save()
-        .then(applicant => {
-            //res.status(200).json(applicant);
-        })
-        .catch(err => {
-            res.status(200).json({ "error": "PLease check fields" });
-            return 0;
+    if (!applicant) {
+        var s1 = await newApplicant.save();
+        if (s1.error) { return res.json({ "error": "unknown error" }) }
+
+
+        const newLogin = new Login({
+            email: req.body.email,
+            password: req.body.password,
+            usertype: 1
         });
 
-    const newLogin = new Login({
-        email: req.body.email,
-        password: req.body.password,
-        usertype: 1
-    });
+        var s2 = newLogin.save();
+        if (!s2.error)
+            return res.status(200).json(s2);
+        else
+            return res.status(200).json(s2.error);
 
-    newLogin.save()
-        .then(login => {
-            return res.status(200).json(login);
-        })
-        .catch(err => {
-            res.status(400).send(err);
-        });
-});
+    }
+};
 
 //login with password done
 router.post("/login", (req, res) => {
@@ -271,8 +269,8 @@ async function filters(req, res) {
         }
     }
     var applicant = await Applicant.findOne({ email: req.body.email });
-    console.log(applicant.jobsapplied.length);
-    if (applicant.jobsapplied.length > 10) { ans.push("warning") }
+    if (applicant.jobsapplied.length >= 10) ans.push("warning");
+
 
     for (var i = 0; i < ans.length; i++) {
 
@@ -287,7 +285,7 @@ async function filters(req, res) {
         }
 
     };
-    console.log(ans);
+    //console.log(ans);
     res.status(200).json(ans);
 }
 
@@ -431,6 +429,7 @@ async function jobupdate(req, res) {
 router.post("/shortlistacceptreject", function (req, res) { shortlistacceptreject(req, res); });
 async function shortlistacceptreject(req, res) {
     let app_email = req.body.app_email, title = req.body.title, rec_email = req.body.rec_email, jobType = "x";
+    console.log(req.body);
 
     var job = await Job.findOne({ title: req.body.title })
     jobType = job.jobType;
@@ -440,23 +439,44 @@ async function shortlistacceptreject(req, res) {
 
 
         for (var j = 0; j < applicant.jobsapplied.length; j++) {
+            console.log("came");
+
+
+            if (applicant.jobsapplied[j].title != title && req.body.select == "accepted" ) 
+            {
+                var temp3 = await Applicant.updateOne({ email: applicant.email, "jobsapplied.title": applicant.jobsapplied[j].title }, { $set: { "jobsapplied.$.status": "rejected" } });
+                console.log("SKHKHSKSNKLHDKJHDKJSHKJHDJHSLDHJKLS");
+
+            }
+            
+
+
             if (applicant.jobsapplied[j].title === title) {
-                console.log("vachindi bro");
-                console.log(req.body.title);
-                if (req.body.status == "accepted") {
+                
+                
+                if (req.body.select == "accepted") {
+                    console.log("vachindi bro");
+                    console.log(req.body.title);
+                
+                    
                     var temp1 = await Rec.updateOne({ email: rec_email }, {
                         $push: {
                             workers: {
                                 title: title,
                                 name: applicant.name,
-                                jobType: jobType
+                                jobType: jobType,
+                                email: app_email
 
                             }
                         }
                     });
+
                 }
 
                 var temp2 = await Applicant.updateOne({ email: applicant.email, "jobsapplied.title": title }, { $set: { "jobsapplied.$.status": req.body.select } })
+
+
+
             }
         }
 
@@ -539,34 +559,17 @@ async function findallapplications(req, res) {
     return res.status(200).json(ans);
 }
 
-
 router.post("/workers", function (req, res) { workers(req, res); });
+
+
 async function workers(req, res) {
-    var ans=[]
-    var rec = await Rec.findOne({ email: req.body.email });
-    for (var i = 0; i < rec.workers.length; i++) {
-        var obj = {
-            "name": rec.workers[i].name,
-            "title": rec.workers[i].title,
-            "doj": rec.workers[i].doj,
-            "jobType": rec.workers[i].jobType
-        }
-        ans.push(obj);
-    }
-    res.status(200).json(ans);
+    var rec=await Rec.findOne({"email":req.body.email});
+    console.log(rec.workers);
+    return res.status(200).json(rec.workers);
 
-};
-
-
-
-
-
-
-
-
+}
 
 
 
 
 module.exports = router;
-

@@ -40,6 +40,7 @@ const RecSchema = new Schema({
     workers:[
         {
         name:{type:String, default:" ", required: false},
+        email:{type:String, default:" ", required: false},
         doj:{type:Date,default:Date.now,required: false},
         jobType:{type:String,default:"WFH",required: false},
         title:{type:String,default:" ",required: false}

@@ -65,7 +65,7 @@ export default class MyJobs extends Component {
                 <tr key={index}>
                     <td className="bg-warning">{data.name}</td>
                     <td className="bg-warning">{data.email}</td>
-                    <td className="bg-warning">{data.date_of_application}</td>
+                    <td className="bg-warning">{data.date_of_application.slice(0,10)}</td>
                     <td className="bg-warning">{data.sop}</td>
                     <td className="bg-warning">{data.status}</td>
 
