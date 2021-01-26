@@ -238,7 +238,33 @@ async function filters(req, res) {
     if (sort === "1") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }  ] }).sort({ salary: -1 })
         if (jobs) {
-            ans = jobs;
+            for(it=0;it<jobs.length;it++)
+            {
+                var clss="",today= new Date(), temp=jobs[it].deadline.toString();
+            
+                var year = today.getFullYear().toString(),month=today.getMonth(),day=today.getDate().toString();
+                month=month+1;
+                month=month.toString();
+                if(month < "10") month= "0"+month;
+                if(day < "10") day="0"+day;
+                var present= year+'-'+month+'-'+day;
+                
+                
+
+                var yt=temp.slice(11,15).toString(),mt=temp.slice(4,7).toString(),dt=temp.slice(8,10).toString() ;
+                
+                if(mt==="Jan") mt="01";if(mt==="May") mt="05";if(mt==="Sep") mt="09";
+                if(mt==="Feb") mt="02";if(mt==="Jun") mt="06";if(mt==="Oct") mt="10";
+                if(mt==="Mar") mt="03";if(mt==="Jul") mt="07";if(mt==="Nov") mt="11";
+                if(mt==="Apr") mt="04";if(mt==="Aug") mt="08";if(mt==="Dec") mt="12";
+                var dline=yt+'-'+mt+'-'+dt;
+                console.log("dead: " + dline + " " + present);
+
+                if(dline > present) ans.push(jobs[it]);
+                if(dline < present) console.log(jobs[it]);
+
+            
+            }
 
           
         }
@@ -247,7 +273,33 @@ async function filters(req, res) {
     else if (sort === "0") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ salary: 1 })
         if (jobs) {
-            ans = jobs;
+            for(it=0;it<jobs.length;it++)
+            {
+                var clss="",today= new Date(), temp=jobs[it].deadline.toString();
+            
+                var year = today.getFullYear().toString(),month=today.getMonth(),day=today.getDate().toString();
+                month=month+1;
+                month=month.toString();
+                if(month < "10") month= "0"+month;
+                if(day < "10") day="0"+day;
+                var present= year+'-'+month+'-'+day;
+                
+                
+
+                var yt=temp.slice(11,15).toString(),mt=temp.slice(4,7).toString(),dt=temp.slice(8,10).toString() ;
+                
+                if(mt==="Jan") mt="01";if(mt==="May") mt="05";if(mt==="Sep") mt="09";
+                if(mt==="Feb") mt="02";if(mt==="Jun") mt="06";if(mt==="Oct") mt="10";
+                if(mt==="Mar") mt="03";if(mt==="Jul") mt="07";if(mt==="Nov") mt="11";
+                if(mt==="Apr") mt="04";if(mt==="Aug") mt="08";if(mt==="Dec") mt="12";
+                var dline=yt+'-'+mt+'-'+dt;
+                console.log("dead: " + dline + " " + present);
+
+                if(dline > present) ans.push(jobs[it]);
+                if(dline < present) console.log(jobs[it]);
+
+            
+            }
 
           
         }
@@ -255,7 +307,33 @@ async function filters(req, res) {
     else if (sort === "d0") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ duration: 1 })
         if (jobs) {
-            ans = jobs;
+            for(it=0;it<jobs.length;it++)
+            {
+                var clss="",today= new Date(), temp=jobs[it].deadline.toString();
+            
+                var year = today.getFullYear().toString(),month=today.getMonth(),day=today.getDate().toString();
+                month=month+1;
+                month=month.toString();
+                if(month < "10") month= "0"+month;
+                if(day < "10") day="0"+day;
+                var present= year+'-'+month+'-'+day;
+                
+                
+
+                var yt=temp.slice(11,15).toString(),mt=temp.slice(4,7).toString(),dt=temp.slice(8,10).toString() ;
+                
+                if(mt==="Jan") mt="01";if(mt==="May") mt="05";if(mt==="Sep") mt="09";
+                if(mt==="Feb") mt="02";if(mt==="Jun") mt="06";if(mt==="Oct") mt="10";
+                if(mt==="Mar") mt="03";if(mt==="Jul") mt="07";if(mt==="Nov") mt="11";
+                if(mt==="Apr") mt="04";if(mt==="Aug") mt="08";if(mt==="Dec") mt="12";
+                var dline=yt+'-'+mt+'-'+dt;
+                console.log("dead: " + dline + " " + present);
+
+                if(dline > present) ans.push(jobs[it]);
+                if(dline < present) console.log(jobs[it]);
+
+            
+            }
 
           
         }
@@ -263,7 +341,33 @@ async function filters(req, res) {
     else if (sort === "d1") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ duration: -1 })
         if (jobs) {
-            ans = jobs;
+            for(it=0;it<jobs.length;it++)
+            {
+                var clss="",today= new Date(), temp=jobs[it].deadline.toString();
+            
+                var year = today.getFullYear().toString(),month=today.getMonth(),day=today.getDate().toString();
+                month=month+1;
+                month=month.toString();
+                if(month < "10") month= "0"+month;
+                if(day < "10") day="0"+day;
+                var present= year+'-'+month+'-'+day;
+                
+                
+
+                var yt=temp.slice(11,15).toString(),mt=temp.slice(4,7).toString(),dt=temp.slice(8,10).toString() ;
+                
+                if(mt==="Jan") mt="01";if(mt==="May") mt="05";if(mt==="Sep") mt="09";
+                if(mt==="Feb") mt="02";if(mt==="Jun") mt="06";if(mt==="Oct") mt="10";
+                if(mt==="Mar") mt="03";if(mt==="Jul") mt="07";if(mt==="Nov") mt="11";
+                if(mt==="Apr") mt="04";if(mt==="Aug") mt="08";if(mt==="Dec") mt="12";
+                var dline=yt+'-'+mt+'-'+dt;
+                console.log("dead: " + dline + " " + present);
+
+                if(dline > present) ans.push(jobs[it]);
+                if(dline < present) console.log(jobs[it]);
+
+            
+            }
 
           
         }
@@ -398,7 +502,8 @@ async function jobupdate(req, res) {
         let applicants = await Applicant.find({});
         for (var i = 0; i < applicants.length; i++) {
 
-            for (var j = 0; j < applicants[i].jobsapplied.length; j++) {
+            for (var j = 0; j < applicants[i].jobsapplied.length; j++) 
+            {
                 if (applicants[i].jobsapplied[j].title == req.body.title) {
                     console.log("vachindi bro");
                     console.log(req.body.title);
