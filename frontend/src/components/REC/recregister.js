@@ -99,7 +99,7 @@ export default class CreateRec extends Component {
           <div className="form-group">
             <label>Password: </label>
             <input
-              type="type"
+              type="password"
               className="form-control"
               value={this.state.password}
               onChange={this.onChangepassword}
@@ -109,6 +109,8 @@ export default class CreateRec extends Component {
             <label>Phone Number: </label>
             <input
               type="Number"
+              min="1000000000"
+              max="9999999999"
               className="form-control"
               value={this.state.phone}
               onChange={this.onChangephone}
@@ -118,6 +120,7 @@ export default class CreateRec extends Component {
             <label>BIO: </label>
             <input
               type="Text"
+              maxLength="1000"
               className="form-control"
               value={this.state.bio}
               onChange={this.onChangebio}

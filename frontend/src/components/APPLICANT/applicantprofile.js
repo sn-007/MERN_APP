@@ -64,6 +64,8 @@ export default class AppProfile extends Component
       education:res.data.education,
       skillset:res.data.skillset
     });
+    localStorage.setItem("name",res.data.name);
+    
     
   }
   

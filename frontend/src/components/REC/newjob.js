@@ -125,7 +125,8 @@ export default class ewJob extends Component {
           <div className="form-group">
             <label>Salary: </label>
             <input
-              type="number"
+              type="Number"
+              min="0"
               className="form-control"
               value={this.state.salary}
               onChange={this.onChangesalary}
@@ -134,7 +135,9 @@ export default class ewJob extends Component {
           <div className="form-group">
             <label>Duration </label>
             <input
-              type="number"
+              type="Number"
+              min="1"
+              max="7"
               className="form-control"
               value={this.state.duration}
               onChange={this.onChangeduration}
@@ -165,22 +168,6 @@ export default class ewJob extends Component {
             </RadioGroup>
           </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           
           <div className="form-group">
             <label>Skills required </label>
@@ -206,6 +193,7 @@ export default class ewJob extends Component {
             <label>Applications Limit </label>
             <input
               type="number"
+              min="1"
               className="form-control"
               value={this.state.max_applications}
               onChange={this.onChangemax_applications}
@@ -216,6 +204,7 @@ export default class ewJob extends Component {
             <label>Positions Available </label>
             <input
               type="number"
+              min="1"
               className="form-control"
               value={this.state.num_positions}
               onChange={this.onChangenum_positions}

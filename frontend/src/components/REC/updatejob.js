@@ -94,6 +94,7 @@ async ondelete()
             <label>Applications Limit </label>
             <input
               type="number"
+              min="1"
               className="form-control"
               value={this.state.max_applications}
               onChange={this.onChangemax_applications}
@@ -104,6 +105,7 @@ async ondelete()
             <label>Positions Available </label>
             <input
               type="number"
+              min="1"
               className="form-control"
               value={this.state.num_positions}
               onChange={this.onChangenum_positions}

@@ -8,7 +8,7 @@ export default class CreateApp extends Component {
     super(props);
 
     this.state = {
-      name: "",
+      name: localStorage.getItem("name"),
       password: "",
       education:[],
       skillset:[],
@@ -104,12 +104,15 @@ export default class CreateApp extends Component {
     let str = "http://localhost:4000/applicant/update";
     let res= axios.post(str, newApplicant);
     alert("updated");
+    localStorage.removeItem("name"); 
+    
+
     this.props.history.push("/appprofile");
     }
     
     else alert("empty fileds asshole !!!!!!")
     this.setState({
-        name: "",
+        name: localStorage.getItem("name"),
         password: "",
         education:[],
         skillset:[],
@@ -168,7 +171,9 @@ export default class CreateApp extends Component {
           <div className="form-group">
             <label>StartYear: </label>
             <input
-              type="year"
+              type="Number"
+              min="1995" 
+              max="2021"
               className="form-control"
               value={this.state.startyear}
               onChange={this.onChangestartyear}
@@ -177,7 +182,9 @@ export default class CreateApp extends Component {
           <div className="form-group">
             <label>EndYear: </label>
             <input
-              type="text"
+              type="Number"
+              min="1995" 
+              max="2023"
               className="form-control"
               value={this.state.endyear}
               onChange={this.onChangeendyear}

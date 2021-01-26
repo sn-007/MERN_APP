@@ -21,12 +21,14 @@ export default class Alljobs extends Component {
       lower: "",
       upper: "",
       sort: "0",
-      sortd:"",
+      sortd: "",
       jobType: "",
-      found:""
+      found: "",
+      limit: ""
     };
 
     this.onChangedata = this.onChangedata.bind(this);
+    this.onChangelimit = this.onChangelimit.bind(this);
     this.onChangeftitle = this.onChangeftitle.bind(this);
     this.onChangelower = this.onChangelower.bind(this);
     this.onChangeupper = this.onChangeupper.bind(this);
@@ -37,13 +39,13 @@ export default class Alljobs extends Component {
     this.onChangejobType = this.onChangejobType.bind(this);
     this.onChangefound = this.onChangefound.bind(this);
 
-  
+
     this.updatedata = this.updatedata.bind(this);
-  
+
 
 
   }
-
+  onChangelimit(event) { this.setState({ limit: event.target.value }); }
   onChangedata(event) { this.setState({ name: event.target.value }); }
   onChangeftitle(event) { this.setState({ ftitle: event.target.value }); }
   onChangelower(event) { this.setState({ lower: event.target.value }); }
@@ -52,7 +54,7 @@ export default class Alljobs extends Component {
   onChangesortd(event) { this.setState({ sortd: event.target.value }); }
   onChangejobType(event) { this.setState({ jobType: event.target.value }); }
   onChangefound(event) { this.setState({ found: event.target.value }); }
-  
+
 
 
   async updatedata(jobtitle) {
@@ -60,48 +62,53 @@ export default class Alljobs extends Component {
     this.props.history.push("/applyforjob");
   }
 
-  async componentDidMount()
-  {
-    if(localStorage.getItem("usertype")!="1")
-    {
-      
+  async componentDidMount() {
+    if (localStorage.getItem("usertype") != "1") {
+
       this.props.history.push("/login");
       return;
     }
   }
 
-   
+
 
   renderData(data, index) {
-  var  name = "Apply", clss = "btn btn-warning", dsb=false;
-    
-    if (data.found ==="1" ) {
-      name = "Applied";
-      clss = "btn btn-success"
-      dsb=true;
+    var name = "Apply", clss = "btn btn-warning", dsb = false;
+    if (this.state.limit === "true") {
+      clss = "btn btn-danger";
+      dsb = true;
+      name=" AT YOUR LIMIT"
     }
 
+    if (data.found === "1") {
+      name = "Applied";
+      clss = "btn btn-success"
+      dsb = true;
+    }
+  
 
-return (
+    if (data.salary) {
+      return (
 
 
-  <tr key={index}>
-    <td>{data.title}</td>
-    <td>{data.salary}</td>
-    <td>{data.rec_name}</td>
-    <td>{data.rec_email}</td>
-    <td>{data.jobType}</td>
-    <td>{data.duration}</td>
-    <td><button type="button" disabled={dsb} class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
+        <tr key={index}>
+          <td>{data.title}</td>
+          <td>{data.salary}</td>
+          <td>{data.rec_name}</td>
+          <td>{data.rec_email}</td>
+          <td>{data.jobType}</td>
+          <td>{data.duration}</td>
+          <td><button type="button" disabled={dsb} class={clss} onClick={() => this.updatedata(data.title)} >{name}</button></td>
 
-  </tr>)
-    
+        </tr>)
+    }
+
   };
 
   async onSubmit(e) {
     e.preventDefault();
     var str = "http://localhost:4000/appfilters";
-    
+
     var obj = {
       "title": this.state.ftitle,
       "sort": this.state.sort,
@@ -109,11 +116,15 @@ return (
       "jobType": this.state.jobType,
       "lower": this.state.lower,
       "upper": this.state.upper,
-      "email":localStorage.getItem("email")
+      "email": localStorage.getItem("email")
     }
-    
+
     var res = await axios.post(str, obj);
-   
+    if (res.data.includes("warning")) {
+      alert("you cannot apply more than 10 jobs");
+      this.setState({ limit: "true" });
+    };
+
     this.setState({ data: res.data });
     console.log(res.data);
 
@@ -192,7 +203,7 @@ return (
             </RadioGroup>
           </div>
 
-          
+
 
 
 

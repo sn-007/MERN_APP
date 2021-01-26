@@ -35,21 +35,13 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    /*console.log("+++++++++++");
-    console.log(localStorage.getItem("email"));
-    console.log(localStorage.getItem("usertype"));
-    
-    if (localStorage.getItem("usertype") === 1 && localStorage.getItem("email")) this.props.history.push("/applicant");
-    else if (localStorage.getItem("usertype") === 0 && localStorage.getItem("email")) 
-    {
-      console.log("dsas");
-      this.props.history.push("/rec");
-    } 
-    else 
-    {
-      console.log("rtlogin");
-      this.props.history.push("/login");
-    }*/
+    localStorage.removeItem("name");
+    localStorage.removeItem("title");
+    localStorage.removeItem("bio");
+    localStorage.removeItem("phone");
+    localStorage.removeItem("email");
+    localStorage.removeItem("usertype");
+
   }
   
   

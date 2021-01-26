@@ -246,7 +246,7 @@ async function filters(req, res) {
         }
     }
 
-    else if(sort==="0") {
+    else if (sort === "0") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: 1 })
         if (jobs) {
             ans = jobs;
@@ -254,7 +254,7 @@ async function filters(req, res) {
             console.log("from sort===0")
         }
     }
-    else if(sort==="d0") {
+    else if (sort === "d0") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: 1 })
         if (jobs) {
             ans = jobs;
@@ -262,7 +262,7 @@ async function filters(req, res) {
             console.log("from sort===0")
         }
     }
-    else if(sort==="d1") {
+    else if (sort === "d1") {
         var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: -1 })
         if (jobs) {
             ans = jobs;
@@ -272,7 +272,7 @@ async function filters(req, res) {
     }
     var applicant = await Applicant.findOne({ email: req.body.email });
     console.log(applicant.jobsapplied.length);
-
+    if (applicant.jobsapplied.length > 10) { ans.push("warning") }
 
     for (var i = 0; i < ans.length; i++) {
 
@@ -287,7 +287,7 @@ async function filters(req, res) {
         }
 
     };
-    //console.log(ans);
+    console.log(ans);
     res.status(200).json(ans);
 }
 
@@ -431,29 +431,31 @@ async function jobupdate(req, res) {
 router.post("/shortlistacceptreject", function (req, res) { shortlistacceptreject(req, res); });
 async function shortlistacceptreject(req, res) {
     let app_email = req.body.app_email, title = req.body.title, rec_email = req.body.rec_email, jobType = "x";
-    
+
     var job = await Job.findOne({ title: req.body.title })
     jobType = job.jobType;
     if (req.body.select) {
         let applicant = await Applicant.findOne({ "email": app_email });
 
 
-       
+
         for (var j = 0; j < applicant.jobsapplied.length; j++) {
             if (applicant.jobsapplied[j].title === title) {
                 console.log("vachindi bro");
                 console.log(req.body.title);
-                if(req.body.status=="accepted"){var temp1 = await Rec.updateOne({ email: rec_email }, {
-                    $push: {
-                        workers: {
-                            title: title,
-                            name: applicant.name,
-                            jobType: jobType
+                if (req.body.status == "accepted") {
+                    var temp1 = await Rec.updateOne({ email: rec_email }, {
+                        $push: {
+                            workers: {
+                                title: title,
+                                name: applicant.name,
+                                jobType: jobType
 
+                            }
                         }
-                    }
-                });}
-                
+                    });
+                }
+
                 var temp2 = await Applicant.updateOne({ email: applicant.email, "jobsapplied.title": title }, { $set: { "jobsapplied.$.status": req.body.select } })
             }
         }
@@ -536,6 +538,24 @@ async function findallapplications(req, res) {
     console.log("_______");
     return res.status(200).json(ans);
 }
+
+
+router.post("/workers", function (req, res) { workers(req, res); });
+async function workers(req, res) {
+    var ans=[]
+    var rec = await Rec.findOne({ email: req.body.email });
+    for (var i = 0; i < rec.workers.length; i++) {
+        var obj = {
+            "name": rec.workers[i].name,
+            "title": rec.workers[i].title,
+            "doj": rec.workers[i].doj,
+            "jobType": rec.workers[i].jobType
+        }
+        ans.push(obj);
+    }
+    res.status(200).json(ans);
+
+};
 
 
 

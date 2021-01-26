@@ -158,7 +158,9 @@ export default class CreateApp extends Component {
           <div className="form-group">
             <label>StartYear: </label>
             <input
-              type="year"
+              type="Number"
+              min="1995" 
+              max="2021"
               className="form-control"
               value={this.state.startyear}
               onChange={this.onChangestartyear}
@@ -167,7 +169,9 @@ export default class CreateApp extends Component {
           <div className="form-group">
             <label>EndYear: </label>
             <input
-              type="text"
+              type="Number"
+              min="1995" 
+              max="2030"
               className="form-control"
               value={this.state.endyear}
               onChange={this.onChangeendyear}

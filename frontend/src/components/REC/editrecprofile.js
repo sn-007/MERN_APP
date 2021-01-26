@@ -8,10 +8,10 @@ export default class EditRec extends Component {
     super(props);
 
     this.state = {
-      name: "",
-      phone: "",
-      password: "",
-      bio:""
+      name: localStorage.getItem("name"),
+        phone: localStorage.getItem("phone"),
+        password: "",
+        bio:localStorage.getItem("bio"),
     };
 
     this.onChangename = this.onChangename.bind(this);
@@ -62,15 +62,20 @@ export default class EditRec extends Component {
       if (res.data.error) {
         alert("enter correctly bloddyFool ");
       }
-      else alert("updated");
+      else {
+      alert("updated");
+      localStorage.removeItem("name");
+      localStorage.removeItem("bio");
+      localStorage.removeItem("phone");
       return this.props.history.push("/recprofile");
+    }
     });}
     else alert("empty fileds asshole !!!!!!");
     this.state = {
-        name: "",
-        phone: "",
+        name: localStorage.getItem("name"),
+        phone: localStorage.getItem("phone"),
         password: "",
-        bio:""
+        bio:localStorage.getItem("bio"),
       };
   }
 
@@ -83,7 +88,7 @@ export default class EditRec extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Name: </label>
-            <input
+            <input  
               type="text"
               className="form-control"
               value={this.state.name}
@@ -93,7 +98,7 @@ export default class EditRec extends Component {
           <div className="form-group">
             <label>Email: </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
               value={localStorage.getItem("email")}
               readOnly
@@ -113,6 +118,8 @@ export default class EditRec extends Component {
             <label>Phone Number: </label>
             <input
               type="Number"
+              min="1000000000"
+              max="9999999999"
               className="form-control"
               value={this.state.phone}
               onChange={this.onChangephone}
@@ -122,6 +129,8 @@ export default class EditRec extends Component {
             <label>BIO: </label>
             <input
               type="Text"
+              minLength="0"
+              maxLength="1000"
               className="form-control"
               value={this.state.bio}
               onChange={this.onChangebio}

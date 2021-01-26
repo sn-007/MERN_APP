@@ -65,6 +65,9 @@ export default class RecProfile extends Component
       phone:res.data.phone,
       bio:res.data.bio
     });
+    localStorage.setItem("name",res.data.name);
+    localStorage.setItem("phone",res.data.phone);
+    localStorage.setItem("bio",res.data.bio);
     
   }
   
@@ -84,7 +87,7 @@ export default class RecProfile extends Component
           <li><h5>Bio      :   {this.state.bio}</h5></li>*/}
 
           <table class="table table-hover">
-          <thead>
+          <thead className="table-dark">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -93,7 +96,7 @@ export default class RecProfile extends Component
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr className="table-primary">
               
               <td>{this.state.name}</td>
               <td>{this.state.email}</td>
