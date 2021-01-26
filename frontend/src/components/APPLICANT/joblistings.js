@@ -22,6 +22,7 @@ export default class Alljobs extends Component {
       upper: "",
       sort: "0",
       sortd: "",
+      ud:"",
       jobType: "",
       found: "",
       limit: ""
@@ -34,6 +35,7 @@ export default class Alljobs extends Component {
     this.onChangeupper = this.onChangeupper.bind(this);
     this.onChangesort = this.onChangesort.bind(this);
     this.onChangesortd = this.onChangesortd.bind(this);
+    this.onChangeud = this.onChangeud.bind(this);
     this.renderData = this.renderData.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangejobType = this.onChangejobType.bind(this);
@@ -52,6 +54,7 @@ export default class Alljobs extends Component {
   onChangeupper(event) { this.setState({ upper: event.target.value }); }
   onChangesort(event) { this.setState({ sort: event.target.value }); }
   onChangesortd(event) { this.setState({ sortd: event.target.value }); }
+  onChangeud(event) { this.setState({ ud: event.target.value }); }
   onChangejobType(event) { this.setState({ jobType: event.target.value }); }
   onChangefound(event) { this.setState({ found: event.target.value }); }
 
@@ -116,7 +119,8 @@ export default class Alljobs extends Component {
       "jobType": this.state.jobType,
       "lower": this.state.lower,
       "upper": this.state.upper,
-      "email": localStorage.getItem("email")
+      "email": localStorage.getItem("email"),
+      "ud":this.state.ud
     }
 
     var res = await axios.post(str, obj);
@@ -151,6 +155,7 @@ export default class Alljobs extends Component {
               <label>Lower LIMIT: </label>
               <input
                 type="number"
+                min="0"
                 className="form-control"
                 value={this.state.lower}
                 onChange={this.onChangelower}
@@ -160,11 +165,24 @@ export default class Alljobs extends Component {
               <label>Upper LIMIT: </label>
               <input
                 type="number"
+                min="0"
                 className="form-control"
                 value={this.state.upper}
                 onChange={this.onChangeupper}
               />
             </div>
+            <div className="form-group">
+              <label>Duration LIMIT: </label>
+              <input
+                type="number"
+                min="0"
+                max="7"
+                className="form-control"
+                value={this.state.ud}
+                onChange={this.onChangeud}
+              />
+            </div>
+
 
 
           </div>

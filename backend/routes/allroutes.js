@@ -224,19 +224,19 @@ router.post("/apply/newjob", function (req, res) {
 
 //filters done
 router.post("/appfilters", function (req, res) { filters(req, res) })
-
 async function filters(req, res) {
-    let sort = req.body.sort, uppper = req.body.upper, lower = req.body.lower, jobType = req.body.jobType;
-    console.log(sort);
+    let sort = req.body.sort, uppper = req.body.upper, lower = req.body.lower, jobType = req.body.jobType,ud=req.body.ud;
+    console.log(ud);
     let title = req.body.title;
     if (!title) title = "";
+    if(!ud) ud=1000;
     if (!jobType || jobType === "x") jobType = "";
     if (!uppper) uppper = 999999999900;
     if (!lower) lower = 0;
     var ans = [];
 
     if (sort === "1") {
-        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: -1 })
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }  ] }).sort({ salary: -1 })
         if (jobs) {
             ans = jobs;
 
@@ -245,7 +245,7 @@ async function filters(req, res) {
     }
 
     else if (sort === "0") {
-        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ salary: 1 })
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ salary: 1 })
         if (jobs) {
             ans = jobs;
 
@@ -253,7 +253,7 @@ async function filters(req, res) {
         }
     }
     else if (sort === "d0") {
-        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: 1 })
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ duration: 1 })
         if (jobs) {
             ans = jobs;
 
@@ -261,7 +261,7 @@ async function filters(req, res) {
         }
     }
     else if (sort === "d1") {
-        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType } }] }).sort({ duration: -1 })
+        var jobs = await Job.find({ $and: [{ title: { $regex: title }, salary: { $gt: lower, $lte: uppper }, jobType: { $regex: jobType }, duration : {$lt: ud} }] }).sort({ duration: -1 })
         if (jobs) {
             ans = jobs;
 
@@ -560,7 +560,6 @@ async function findallapplications(req, res) {
 }
 
 router.post("/workers", function (req, res) { workers(req, res); });
-
 
 async function workers(req, res) {
     var rec=await Rec.findOne({"email":req.body.email});
