@@ -99,7 +99,8 @@ export default class CreateApp extends Component {
           alert("Already existed ");
         }
      
-      else alert("Created sucessfully, please login now ");
+      else{ alert("Created sucessfully, please login now ");this.props.history.push("/login")}
+
     }
     else alert("empty fileds asshole !!!!!!")
     this.setState({

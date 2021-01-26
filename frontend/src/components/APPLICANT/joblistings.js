@@ -25,7 +25,8 @@ export default class Alljobs extends Component {
       ud:"",
       jobType: "",
       found: "",
-      limit: ""
+      limit: "",
+      danger:""
     };
 
     this.onChangedata = this.onChangedata.bind(this);
@@ -40,6 +41,7 @@ export default class Alljobs extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangejobType = this.onChangejobType.bind(this);
     this.onChangefound = this.onChangefound.bind(this);
+    this.onChangedanger = this.onChangedanger.bind(this);
 
 
     this.updatedata = this.updatedata.bind(this);
@@ -48,6 +50,7 @@ export default class Alljobs extends Component {
 
   }
   onChangelimit(event) { this.setState({ limit: event.target.value }); }
+  onChangedanger(event) { this.setState({ danger: event.target.value }); }
   onChangedata(event) { this.setState({ name: event.target.value }); }
   onChangeftitle(event) { this.setState({ ftitle: event.target.value }); }
   onChangelower(event) { this.setState({ lower: event.target.value }); }
@@ -76,11 +79,17 @@ export default class Alljobs extends Component {
 
 
   renderData(data, index) {
+ 
     var name = "Apply", clss = "btn btn-warning", dsb = false;
     if (this.state.limit === "true") {
       clss = "btn btn-danger";
       dsb = true;
       name=" AT YOUR LIMIT"
+    }
+    if (this.state.danger === "true") {
+      clss = "btn btn-danger";
+      dsb = true;
+      name=":>nope<:"
     }
 
     if (data.found === "1") {
@@ -127,6 +136,10 @@ export default class Alljobs extends Component {
     if (res.data.includes("warning")) {
       alert("you cannot apply more than 10 jobs");
       this.setState({ limit: "true" });
+    };
+    if (res.data.includes("danger")) {
+      alert("you are already selected");
+      this.setState({ danger: "true" });
     };
 
     this.setState({ data: res.data });

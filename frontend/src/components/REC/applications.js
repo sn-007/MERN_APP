@@ -41,6 +41,7 @@ export default class MyJobs extends Component {
         console.log(obj);
         var str = "http://localhost:4000/shortlistacceptreject";
         var res = await axios.post(str, obj);
+        this.props.history.push("/myjobs")
     }
 
     async componentDidMount() {

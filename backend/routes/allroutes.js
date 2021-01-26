@@ -240,7 +240,7 @@ async function filters(req, res) {
         if (jobs) {
             ans = jobs;
 
-            console.log("from sort===1")
+          
         }
     }
 
@@ -249,7 +249,7 @@ async function filters(req, res) {
         if (jobs) {
             ans = jobs;
 
-            console.log("from sort===0")
+          
         }
     }
     else if (sort === "d0") {
@@ -257,7 +257,7 @@ async function filters(req, res) {
         if (jobs) {
             ans = jobs;
 
-            console.log("from sort===0")
+          
         }
     }
     else if (sort === "d1") {
@@ -265,7 +265,7 @@ async function filters(req, res) {
         if (jobs) {
             ans = jobs;
 
-            console.log("from sort===0")
+          
         }
     }
     var applicant = await Applicant.findOne({ email: req.body.email });
@@ -280,7 +280,15 @@ async function filters(req, res) {
                 if (applicant.jobsapplied[j].title === ans[i].title) {
 
                     ans[i].found = "1";
+                    if (applicant.jobsapplied[j].status === "accepted" ) 
+                    {
+                         console.log(applicant.jobsapplied[j].title)
+                          ans.push("danger");
+                    }
                 }
+                
+
+
             }
         }
 
