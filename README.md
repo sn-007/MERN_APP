@@ -1,3 +1,9 @@
+### A Job Portal Website with decent Functionality
+* 2 Types of Users
+  * Recruiter
+  * Employee
+  
+
 # MERN Stack Boilerplate
 
 ## Installations
